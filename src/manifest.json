@@ -1,0 +1,10 @@
+{
+  "engine": ["src/engine/core.js", "src/engine/model.js", "src/engine/generate.js", "src/engine/validate.js", "src/engine/schema.js"],
+  "io": [],
+  "ui": [],
+  "css": [],
+  "toolkit": {
+    "css": "material-design-3-project/md3-tokens.css",
+    "js": "material-design-3-project/md3-dynamic-color.js"
+  }
+}
