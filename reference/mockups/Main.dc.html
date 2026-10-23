@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Attribute — E3D Setup Generator</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:#00658A}a:hover{color:#004C69}
+</style>
+</helmet>
+<div style="width: 100%; min-height: 1040px; box-sizing: border-box; background: #F4F7F9; color: #191C1E; font-family: 'Segoe UI', Roboto, system-ui, sans-serif; font-size: 14px; line-height: 1.45; display: flex; flex-direction: column">
+
+<header style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 24px; background: #FFFFFF; border-bottom: 1px solid #DCE3E8">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 20px">
+<div style="display: flex; align-items: center; gap: 10px">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00658A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"></path><path d="M12 12l8-4.5"></path><path d="M12 12v9"></path><path d="M12 12L4 7.5"></path></svg>
+<span style="font-size: 17px; font-weight: 600">E3D Setup Generator</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px">
+<label for="pcode" style="font-size: 12px; color: #41484D">Kode project</label>
+<input id="pcode" value="ZRF" style="width: 72px; height: 36px; box-sizing: border-box; padding: 0 10px; border: 1px solid #71787E; border-radius: 6px; font: inherit; font-family: Consolas, 'Cascadia Mono', monospace; background: #FFFFFF; color: #191C1E">
+</div>
+<div style="display: flex; align-items: center; gap: 8px">
+<label for="pmdb" style="font-size: 12px; color: #41484D">MDB</label>
+<input id="pmdb" value="/MDB-ZRF" style="width: 128px; height: 36px; box-sizing: border-box; padding: 0 10px; border: 1px solid #71787E; border-radius: 6px; font: inherit; font-family: Consolas, 'Cascadia Mono', monospace; background: #FFFFFF; color: #191C1E">
+<button type="button" aria-label="Tambah MDB" style="width: 36px; height: 36px; border: 1px solid #C0C8CD; border-radius: 6px; background: #FFFFFF; color: #41484D; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></button>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<button type="button" style="height: 40px; padding: 0 16px; border: 1px solid #71787E; border-radius: 20px; background: #FFFFFF; color: #00658A; font: inherit; font-weight: 600; cursor: pointer">Import JSON</button>
+<button type="button" style="height: 40px; padding: 0 16px; border: 1px solid #71787E; border-radius: 20px; background: #FFFFFF; color: #00658A; font: inherit; font-weight: 600; cursor: pointer">Export JSON</button>
+<button type="button" style="height: 40px; padding: 0 20px; border: none; border-radius: 20px; background: {{accent}}; color: #FFFFFF; font: inherit; font-weight: 600; cursor: pointer">Generate ZIP</button>
+</div>
+</header>
+
+<div style="display: flex; flex-wrap: wrap; flex: 1 1 auto; align-items: stretch">
+
+<nav aria-label="Langkah" style="flex: 1 1 200px; max-width: 100%; box-sizing: border-box; padding: 20px 12px; background: #FFFFFF; border-right: 1px solid #DCE3E8; display: flex; flex-direction: column; gap: 4px">
+<a href="Project.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 20px; color: #41484D; text-decoration: none"><span style="width: 22px; height: 22px; border-radius: 11px; background: #E3F4E8; color: #1B6B3A; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center">✓</span>Project</a>
+<a href="Main.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 20px; background: #CBE6F5; color: #003549; font-weight: 600; text-decoration: none"><span style="width: 22px; height: 22px; border-radius: 11px; background: #00658A; color: #FFFFFF; font-size: 12px; display: flex; align-items: center; justify-content: center">2</span>Attribute</a>
+<a href="Relasi.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 20px; color: #41484D; text-decoration: none"><span style="width: 22px; height: 22px; border-radius: 11px; border: 1px solid #71787E; font-size: 12px; box-sizing: border-box; display: flex; align-items: center; justify-content: center">3</span>Relasi &amp; kombinasi</a>
+<a href="Template.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 20px; color: #41484D; text-decoration: none"><span style="width: 22px; height: 22px; border-radius: 11px; border: 1px solid #71787E; font-size: 12px; box-sizing: border-box; display: flex; align-items: center; justify-content: center">4</span>Template</a>
+<a href="Preview.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 20px; color: #41484D; text-decoration: none"><span style="width: 22px; height: 22px; border-radius: 11px; border: 1px solid #71787E; font-size: 12px; box-sizing: border-box; display: flex; align-items: center; justify-content: center">5</span>Preview &amp; validasi</a>
+<a href="Generate.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 20px; color: #41484D; text-decoration: none"><span style="width: 22px; height: 22px; border-radius: 11px; border: 1px solid #71787E; font-size: 12px; box-sizing: border-box; display: flex; align-items: center; justify-content: center">6</span>Generate</a>
+</nav>
+
+<main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 24px; display: flex; flex-direction: column; gap: 20px">
+<div>
+<h1 style="margin: 0; font-size: 24px; font-weight: 600">Attribute</h1>
+<p style="margin: 4px 0 0; color: #41484D">Tabel parameter bebas. Kolom Kode dan Deskripsi wajib; kolom angka dan referensi bisa ditambah. Peran E3D menentukan attribute mana yang menghasilkan command.</p>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
+
+<section aria-label="Daftar attribute" style="flex: 1 1 260px; max-width: 100%; box-sizing: border-box; background: #FFFFFF; border: 1px solid #DCE3E8; border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 6px">
+<div style="padding: 4px 8px 8px; font-size: 12px; font-weight: 600; color: #41484D; letter-spacing: 0.02em">7 ATTRIBUTE</div>
+<sc-for list="{{attrs}}" as="a" hint-placeholder-count="7">
+<button type="button" style="{{a.style}}">
+<span style="display: flex; justify-content: space-between; align-items: center; gap: 8px">
+<span style="font-weight: 600">{{a.name}}</span>
+<span style="{{a.chipStyle}}">{{a.role}}</span>
+</span>
+<span style="font-size: 12px; color: #41484D">{{a.meta}}</span>
+</button>
+</sc-for>
+<button type="button" style="margin-top: 6px; height: 40px; border: 1px dashed #71787E; border-radius: 8px; background: transparent; color: #00658A; font: inherit; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Attribute baru</button>
+</section>
+
+<section aria-label="Editor attribute Disiplin" style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; background: #FFFFFF; border: 1px solid #DCE3E8; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 20px">
+
+<div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end">
+<div style="display: flex; flex-direction: column; gap: 4px; flex: 1 1 200px">
+<label for="aname" style="font-size: 12px; color: #41484D">Nama attribute</label>
+<input id="aname" value="Disiplin" style="height: 40px; box-sizing: border-box; padding: 0 12px; border: 1px solid #71787E; border-radius: 6px; font: inherit; background: #FFFFFF; color: #191C1E">
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px; flex: 1 1 220px">
+<label for="arole" style="font-size: 12px; color: #41484D">Peran E3D</label>
+<select id="arole" style="height: 40px; box-sizing: border-box; padding: 0 10px; border: 1px solid #71787E; border-radius: 6px; font: inherit; background: #FFFFFF; color: #191C1E">
+<option>Lainnya (hanya token)</option>
+<option>Team (CREATE TEAM)</option>
+<option>User (TADD)</option>
+<option>Separator (NEW SITE)</option>
+</select>
+</div>
+<div style="flex: 1 1 200px; font-size: 12px; color: #41484D; padding-bottom: 10px">Token: <code style="font-family: Consolas, 'Cascadia Mono', monospace; background: #EEF2F4; padding: 2px 6px; border-radius: 4px; color: #191C1E">Disiplin.&lt;kolom&gt;</code></div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 12px">
+<h2 style="margin: 0; font-size: 16px; font-weight: 600">Kolom</h2>
+<button type="button" style="height: 32px; padding: 0 12px; border: 1px solid #C0C8CD; border-radius: 16px; background: #FFFFFF; color: #00658A; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">+ Kolom</button>
+</div>
+<div style="overflow-x: auto; border: 1px solid #DCE3E8; border-radius: 8px">
+<table style="width: 100%; min-width: 560px; border-collapse: collapse">
+<thead>
+<tr style="background: #EEF2F4; text-align: left; font-size: 12px; color: #41484D">
+<th style="padding: 8px 12px; font-weight: 600">Kolom</th>
+<th style="padding: 8px 12px; font-weight: 600">Tipe</th>
+<th style="padding: 8px 12px; font-weight: 600">Wajib</th>
+<th style="padding: 8px 12px; font-weight: 600">Token</th>
+</tr>
+</thead>
+<tbody>
+<sc-for list="{{cols}}" as="c" hint-placeholder-count="5">
+<tr style="border-top: 1px solid #E5EAED">
+<td style="padding: 8px 12px; font-weight: 600">{{c.name}}</td>
+<td style="padding: 8px 12px">{{c.type}}</td>
+<td style="padding: 8px 12px; color: #41484D">{{c.req}}</td>
+<td style="padding: 8px 12px"><code style="font-family: Consolas, 'Cascadia Mono', monospace; font-size: 13px; background: #CBE6F5; color: #003549; padding: 2px 8px; border-radius: 4px">{{c.token}}</code></td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px">
+<h2 style="margin: 0; font-size: 16px; font-weight: 600">Data <span style="font-weight: 400; color: #41484D">· 10 baris</span></h2>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<button type="button" style="height: 32px; padding: 0 12px; border: 1px solid #C0C8CD; border-radius: 16px; background: #FFFFFF; color: #00658A; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">+ Baris</button>
+<button type="button" style="height: 32px; padding: 0 12px; border: 1px solid #C0C8CD; border-radius: 16px; background: #FFFFFF; color: #00658A; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">Tempel dari Excel</button>
+<button type="button" style="height: 32px; padding: 0 12px; border: 1px solid #C0C8CD; border-radius: 16px; background: #FFFFFF; color: #00658A; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">Import CSV</button>
+</div>
+</div>
+<div style="overflow-x: auto; border: 1px solid #DCE3E8; border-radius: 8px">
+<table style="width: 100%; min-width: 640px; border-collapse: collapse">
+<thead>
+<tr style="background: #EEF2F4; text-align: left; font-size: 12px; color: #41484D">
+<th style="padding: 8px 12px; font-weight: 600; width: 32px">#</th>
+<th style="padding: 8px 12px; font-weight: 600">Kode</th>
+<th style="padding: 8px 12px; font-weight: 600">Deskripsi</th>
+<th style="padding: 8px 12px; font-weight: 600">Urutan</th>
+<th style="padding: 8px 12px; font-weight: 600">Team → Team</th>
+<th style="padding: 8px 12px; font-weight: 600">MDB mulai</th>
+</tr>
+</thead>
+<tbody>
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="10">
+<tr style="border-top: 1px solid #E5EAED">
+<td style="padding: 7px 12px; color: #6F777C">{{r.n}}</td>
+<td style="padding: 7px 12px; font-family: Consolas, 'Cascadia Mono', monospace; font-weight: 600">{{r.kode}}</td>
+<td style="padding: 7px 12px">{{r.desc}}</td>
+<td style="padding: 7px 12px; font-family: Consolas, 'Cascadia Mono', monospace">{{r.urutan}}</td>
+<td style="padding: 7px 12px"><span style="display: inline-flex; align-items: center; gap: 6px"><span style="font-family: Consolas, 'Cascadia Mono', monospace">{{r.team}}</span><span style="{{r.teamChip}}">{{r.teamStatus}}</span></span></td>
+<td style="padding: 7px 12px; font-family: Consolas, 'Cascadia Mono', monospace">{{r.mdb}}</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<span style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 16px; background: #E3F4E8; color: #14522C; font-size: 13px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>Kode unik</span>
+<span style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 16px; background: #E3F4E8; color: #14522C; font-size: 13px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>Urutan unik</span>
+<span style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 16px; background: #E3F4E8; color: #14522C; font-size: 13px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>Semua referensi Team valid</span>
+<span style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 16px; background: #E1EEF6; color: #003549; font-size: 13px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v6M12 7.5v.5"></path></svg>5 team baru dibuat di step 00</span>
+</div>
+
+</section>
+</div>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#00658A","options":["#00658A","#2E5BA8","#3F6B2A"]},"$preview":{"width":1440,"height":1040}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const base = 'width: 100%; box-sizing: border-box; text-align: left; padding: 10px 12px; border-radius: 8px; font: inherit; color: #191C1E; cursor: pointer; display: flex; flex-direction: column; gap: 2px;';
+    const off = base + ' border: 1px solid transparent; background: transparent;';
+    const on = base + ' border: 1px solid #00658A; background: #EAF4FA;';
+    const chipE3d = 'font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 10px; background: #FFE0CC; color: #5C2A00;';
+    const chipTok = 'font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 10px; background: #EEF2F4; color: #41484D;';
+    const attrs = [
+      { name: 'Team', role: 'Team', meta: '11 baris · 3 kolom', e3d: true },
+      { name: 'User', role: 'User', meta: '6 baris · 3 kolom', e3d: true },
+      { name: 'Disiplin', role: 'Token', meta: '10 baris · 5 kolom', sel: true },
+      { name: 'Grup', role: 'Separator', meta: '8 baris · 4 kolom', e3d: true },
+      { name: 'Area', role: 'Token', meta: '25 baris · 5 kolom' },
+      { name: 'Function', role: 'Token', meta: '4 baris · 2 kolom' },
+      { name: 'Fluid', role: 'Token', meta: '107 baris · 2 kolom' }
+    ].map((a) => ({ ...a, style: a.sel ? on : off, chipStyle: a.e3d ? chipE3d : chipTok }));
+    const cols = [
+      { name: 'Kode', type: 'Teks', req: 'Ya', token: 'Disiplin.kode' },
+      { name: 'Deskripsi', type: 'Teks', req: 'Ya', token: 'Disiplin.desc' },
+      { name: 'Urutan', type: 'Angka', req: '—', token: 'Disiplin.urutan' },
+      { name: 'Team', type: 'Referensi → Team', req: '—', token: 'Disiplin.team.kode' },
+      { name: 'MDB mulai', type: 'Angka', req: '—', token: 'Disiplin.mdbMulai' }
+    ];
+    const chipNew = 'font-size: 11px; font-weight: 600; padding: 1px 7px; border-radius: 10px; background: #E1EEF6; color: #003549;';
+    const chipOld = 'font-size: 11px; font-weight: 600; padding: 1px 7px; border-radius: 10px; background: #EEF2F4; color: #41484D;';
+    const rows = [
+      ['R', 'Equipment', 1, 'ZRFEQP', 1, false],
+      ['L', 'Piping', 2, 'ZRFPIP', 26, false],
+      ['M', 'Handling', 3, 'ZRFHDL', 51, true],
+      ['S', 'Safety', 4, 'ZRFSFT', 76, true],
+      ['E', 'Electrical', 5, 'ZRFELE', 101, false],
+      ['A', 'Architecture', 6, 'ZRFARC', 126, true],
+      ['H', 'HVAC', 7, 'ZRFHVA', 151, true],
+      ['I', 'Instrumentation', 8, 'ZRFINS', 176, false],
+      ['T', 'Telecom', 9, 'ZRFTEL', 201, true],
+      ['N', 'Structure', 10, 'ZRFSTR', 226, false]
+    ].map((r, i) => ({ n: i + 1, kode: r[0], desc: r[1], urutan: r[2], team: r[3], mdb: r[4], teamStatus: r[5] ? 'baru' : 'ada', teamChip: r[5] ? chipNew : chipOld }));
+    return { accent: this.props.accent ?? '#00658A', attrs, cols, rows };
+  }
+}
+</script>
+</body>
+</html>

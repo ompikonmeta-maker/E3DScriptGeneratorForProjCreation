@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Project — E3D Setup Generator</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:#00658A}a:hover{color:#004C69}
+</style>
+</helmet>
+<div style="width: 100%; min-height: 1240px; box-sizing: border-box; background: #F4F7F9; color: #191C1E; font-family: 'Segoe UI', Roboto, system-ui, sans-serif; font-size: 14px; line-height: 1.45; display: flex; flex-direction: column">
+
+<header style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 24px; background: #FFFFFF; border-bottom: 1px solid #DCE3E8">
+<div style="display: flex; align-items: center; gap: 10px">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00658A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"></path><path d="M12 12l8-4.5"></path><path d="M12 12v9"></path><path d="M12 12L4 7.5"></path></svg>
+<span style="font-size: 17px; font-weight: 600">E3D Setup Generator</span>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<button type="button" style="height: 40px; padding: 0 16px; border: 1px solid #71787E; border-radius: 20px; background: #FFFFFF; color: #00658A; font: inherit; font-weight: 600; cursor: pointer">Import JSON</button>
+<button type="button" style="height: 40px; padding: 0 16px; border: 1px solid #71787E; border-radius: 20px; background: #FFFFFF; color: #00658A; font: inherit; font-weight: 600; cursor: pointer">Export JSON</button>
+<button type="button" style="height: 40px; padding: 0 20px; border: none; border-radius: 20px; background: {{accent}}; color: #FFFFFF; font: inherit; font-weight: 600; cursor: pointer">Generate ZIP</button>
+</div>
+</header>
+
+<div style="display: flex; flex-wrap: wrap; flex: 1 1 auto; align-items: stretch">
+
+<nav aria-label="Langkah" style="flex: 1 1 200px; max-width: 100%; box-sizing: border-box; padding: 20px 12px; background: #FFFFFF; border-right: 1px solid #DCE3E8; display: flex; flex-direction: column; gap: 4px">
+<a href="Project.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 20px; background: #CBE6F5; color: #003549; font-weight: 600; text-decoration: none"><span style="width: 22px; height: 22px; border-radius: 11px; background: #00658A; color: #FFFFFF; font-size: 12px; display: flex; align-items: center; justify-content: center">1</span>Project</a>
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 20px; color: #41484D; text-decoration: none"><span style="width: 22px; height: 22px; border-radius: 11px; border: 1px solid #71787E; font-size: 12px; box-sizing: border-box; display: flex; align-items: center; justify-content: center">2</span>Attribute</a>
+<a href="Relasi.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 20px; color: #41484D; text-decoration: none"><span style="width: 22px; height: 22px; border-radius: 11px; border: 1px solid #71787E; font-size: 12px; box-sizing: border-box; display: flex; align-items: center; justify-content: center">3</span>Relasi &amp; kombinasi</a>
+<a href="Template.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 20px; color: #41484D; text-decoration: none"><span style="width: 22px; height: 22px; border-radius: 11px; border: 1px solid #71787E; font-size: 12px; box-sizing: border-box; display: flex; align-items: center; justify-content: center">4</span>Template</a>
+<a href="Preview.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 20px; color: #41484D; text-decoration: none"><span style="width: 22px; height: 22px; border-radius: 11px; border: 1px solid #71787E; font-size: 12px; box-sizing: border-box; display: flex; align-items: center; justify-content: center">5</span>Preview &amp; validasi</a>
+<a href="Generate.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 20px; color: #41484D; text-decoration: none"><span style="width: 22px; height: 22px; border-radius: 11px; border: 1px solid #71787E; font-size: 12px; box-sizing: border-box; display: flex; align-items: center; justify-content: center">6</span>Generate</a>
+</nav>
+
+<main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 24px; display: flex; flex-direction: column; gap: 20px">
+<div>
+<h1 style="margin: 0; font-size: 24px; font-weight: 600">Project</h1>
+<p style="margin: 4px 0 0; color: #41484D">Titik awal, identitas project, MDB, atribut default DB, dan DB referensi untuk step 90.</p>
+</div>
+
+<section aria-label="Titik awal" style="background: #FFFFFF; border: 1px solid #DCE3E8; border-radius: 12px; padding: 18px 20px; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-size: 16px; font-weight: 600">Titik awal</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px">
+<sc-for list="{{starts}}" as="s" hint-placeholder-count="4">
+<label style="{{s.style}}">
+<span style="display: flex; align-items: center; gap: 8px"><input type="radio" name="start" checked="{{s.sel}}" style="width: 18px; height: 18px; margin: 0; accent-color: {{accent}}"><span style="font-weight: 600">{{s.title}}</span></span>
+<span style="font-size: 13px; color: #41484D">{{s.desc}}</span>
+<span style="align-self: flex-start; padding: 2px 8px; border-radius: 10px; background: #EEF2F4; color: #41484D; font-size: 12px">{{s.chip}}</span>
+</label>
+</sc-for>
+</div>
+</section>
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: stretch">
+
+<section aria-label="Identitas" style="flex: 1 1 340px; box-sizing: border-box; background: #FFFFFF; border: 1px solid #DCE3E8; border-radius: 12px; padding: 18px 20px; display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-size: 16px; font-weight: 600">Identitas</h2>
+<div style="display: flex; flex-direction: column; gap: 4px"><label for="p1" style="font-size: 12px; color: #41484D">Kode project · token PROJECT.kode</label><input id="p1" value="ZRF" style="height: 40px; box-sizing: border-box; padding: 0 12px; border: 1px solid #71787E; border-radius: 6px; font: inherit; font-family: Consolas, 'Cascadia Mono', monospace; background: #FFFFFF; color: #191C1E"></div>
+<div style="display: flex; flex-direction: column; gap: 4px"><label for="p2" style="font-size: 12px; color: #41484D">Nama project</label><input id="p2" value="ZR FLNG" style="height: 40px; box-sizing: border-box; padding: 0 12px; border: 1px solid #71787E; border-radius: 6px; font: inherit; background: #FFFFFF; color: #191C1E"></div>
+<div style="display: flex; flex-direction: column; gap: 4px"><label for="p3" style="font-size: 12px; color: #41484D">Versi target</label><select id="p3" style="height: 40px; box-sizing: border-box; padding: 0 10px; border: 1px solid #71787E; border-radius: 6px; font: inherit; background: #FFFFFF; color: #191C1E"><option>E3D 3.1.8.1 · Administration 2.1.0.1</option></select><span style="font-size: 12px; color: #41484D">Ditulis di header komentar setiap file .mac</span></div>
+<div style="display: flex; flex-direction: column; gap: 4px"><label for="p4" style="font-size: 12px; color: #41484D">Prefix nama file</label><input id="p4" value="ZRF-" style="height: 40px; box-sizing: border-box; padding: 0 12px; border: 1px solid #71787E; border-radius: 6px; font: inherit; font-family: Consolas, 'Cascadia Mono', monospace; background: #FFFFFF; color: #191C1E"></div>
+</section>
+
+<section aria-label="MDB" style="flex: 1 1 340px; box-sizing: border-box; background: #FFFFFF; border: 1px solid #DCE3E8; border-radius: 12px; padding: 18px 20px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 12px"><h2 style="margin: 0; font-size: 16px; font-weight: 600">MDB</h2><button type="button" style="height: 32px; padding: 0 12px; border: 1px solid #C0C8CD; border-radius: 16px; background: #FFFFFF; color: #00658A; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">+ MDB</button></div>
+<div style="border: 1px solid #00658A; background: #EAF4FA; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; justify-content: space-between; gap: 8px"><span style="font-family: Consolas, 'Cascadia Mono', monospace; font-weight: 600">/MDB-ZRF</span><span style="padding: 2px 8px; border-radius: 10px; background: #CBE6F5; color: #003549; font-size: 12px; font-weight: 600">Default</span></div>
+<div style="font-size: 13px; color: #41484D">372 member: 250 DB ZRF (posisi 1–250) + 122 DB referensi (251–372)</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="padding: 4px 10px; border-radius: 14px; background: #E3F4E8; color: #14522C; font-size: 12px; align-self: flex-start">✓ ≤ 5000 member, ≤ 1000 current (1.7)</span>
+<span style="font-size: 12px; color: #41484D">Lebih dari satu MDB: setiap disiplin bisa diarahkan ke MDB lain di layar Relasi &amp; kombinasi.</span>
+</div>
+</section>
+
+<section aria-label="Default DB" style="flex: 1 1 340px; box-sizing: border-box; background: #FFFFFF; border: 1px solid #DCE3E8; border-radius: 12px; padding: 18px 20px; display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-size: 16px; font-weight: 600">Default DB</h2>
+<div style="display: flex; flex-direction: column; gap: 4px"><label for="d1" style="font-size: 12px; color: #41484D">Type</label><select id="d1" style="height: 40px; box-sizing: border-box; padding: 0 10px; border: 1px solid #71787E; border-radius: 6px; font: inherit; background: #FFFFFF; color: #191C1E"><option>DESI</option><option>CATA</option><option>DRAFT</option><option>ISODRAFT</option></select></div>
+<div style="display: flex; flex-direction: column; gap: 4px"><label for="d2" style="font-size: 12px; color: #41484D">Access</label><select id="d2" style="height: 40px; box-sizing: border-box; padding: 0 10px; border: 1px solid #71787E; border-radius: 6px; font: inherit; background: #FFFFFF; color: #191C1E"><option>MULTIWRITE</option><option>UPDATE</option><option>CONTROLLED</option></select></div>
+<div style="display: flex; flex-direction: column; gap: 4px"><label for="d3" style="font-size: 12px; color: #41484D">Claim</label><select id="d3" style="height: 40px; box-sizing: border-box; padding: 0 10px; border: 1px solid #71787E; border-radius: 6px; font: inherit; background: #FFFFFF; color: #191C1E"><option>IMPLICIT</option><option>EXPLICIT</option></select></div>
+<span style="font-size: 12px; color: #41484D">Multiwrite hanya untuk DESI, CATA, DRAFT, ISODRAFT (1.4). Bisa ditimpa per baris lewat kolom attribute.</span>
+</section>
+
+</div>
+
+<section aria-label="DB referensi" style="background: #FFFFFF; border: 1px solid #DCE3E8; border-radius: 12px; padding: 18px 20px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px">
+<div><h2 style="margin: 0; font-size: 16px; font-weight: 600">DB referensi · step 90</h2><div style="font-size: 12px; color: #41484D">DB yang sudah ada (catalogue, spec, foreign). Hanya di-ADD ke MDB, tidak dibuat.</div></div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<button type="button" style="height: 32px; padding: 0 12px; border: 1px solid #C0C8CD; border-radius: 16px; background: #FFFFFF; color: #00658A; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">Tempel daftar</button>
+<button type="button" style="height: 32px; padding: 0 12px; border: 1px solid #C0C8CD; border-radius: 16px; background: #FFFFFF; color: #00658A; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">Import dari Export Config</button>
+</div>
+</div>
+<div style="overflow-x: auto; border: 1px solid #DCE3E8; border-radius: 8px">
+<table style="width: 100%; min-width: 560px; border-collapse: collapse; font-size: 13px">
+<thead><tr style="background: #EEF2F4; text-align: left; font-size: 12px; color: #41484D"><th style="padding: 8px 12px; font-weight: 600">DB</th><th style="padding: 8px 12px; font-weight: 600">Posisi MDB</th><th style="padding: 8px 12px; font-weight: 600">Status</th><th style="padding: 8px 12px; font-weight: 600">Catatan</th></tr></thead>
+<tbody>
+<sc-for list="{{refs}}" as="r" hint-placeholder-count="7">
+<tr style="border-top: 1px solid #E5EAED">
+<td style="padding: 7px 12px; font-family: Consolas, 'Cascadia Mono', monospace; font-weight: 600">{{r.db}}</td>
+<td style="padding: 7px 12px; font-family: Consolas, 'Cascadia Mono', monospace">{{r.pos}}</td>
+<td style="padding: 7px 12px"><span style="{{r.chip}}">{{r.status}}</span></td>
+<td style="padding: 7px 12px; color: #41484D">{{r.note}}</td>
+</tr>
+</sc-for>
+<tr style="border-top: 1px solid #E5EAED"><td colspan="4" style="padding: 8px 12px; color: #41484D">+ 115 baris lagi · total 122 aktif, 3 dikomentari · posisi 251–372</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#00658A","options":["#00658A","#2E5BA8","#3F6B2A"]},"$preview":{"width":1440,"height":1240}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const base = 'box-sizing: border-box; border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 8px; cursor: pointer;';
+    const on = base + ' border: 1px solid #00658A; background: #EAF4FA;';
+    const off = base + ' border: 1px solid #DCE3E8; background: #FFFFFF;';
+    const starts = [
+      { title: 'Preset ZRF', desc: '10 disiplin, 25 area, 8 grup, 107 fluid code, template dan aturan zone ZRF.', chip: 'Dari contoh-register-zrf', sel: true },
+      { title: 'Kosong', desc: 'Hanya struktur dan default DB. Untuk project dengan konvensi baru.', chip: 'Mulai dari nol', sel: false },
+      { title: 'Import config.json', desc: 'Lanjutkan konfigurasi yang pernah diekspor dari tool ini.', chip: 'Versi skema dicek', sel: false },
+      { title: 'Import Export Config', desc: 'Baca sheet Teams dan Databases sebagai daftar terpakai untuk cek bentrok nama dan DBNO.', chip: 'Format hasil export asli (6.6)', sel: false }
+    ].map((s) => ({ ...s, style: s.sel ? on : off }));
+    const act = 'padding: 2px 8px; border-radius: 10px; background: #E3F4E8; color: #14522C; font-size: 12px; font-weight: 600;';
+    const com = 'padding: 2px 8px; border-radius: 10px; background: #FFF1D6; color: #4A3200; font-size: 12px; font-weight: 600;';
+    const refs = [
+      ['MASTER/STLCATA', '251', true, 'Catalogue'],
+      ['MASTER/HVACCATA', '252', true, 'Catalogue'],
+      ['MASTER/PADD', '253', true, ''],
+      ['ADMIN/SP-MASTER-PIPE', '261', true, 'Spec'],
+      ['SAIMAS/UDA_ALL', '—', false, 'Folder SMA belum ada di paket (8.4)'],
+      ['EQP/DESI-R-P1D', '264', true, 'ENI FEED (foreign)'],
+      ['PIP/DESI-L-P1D', '297', true, 'ENI FEED (foreign)']
+    ].map((r) => ({ db: r[0], pos: r[1], status: r[2] ? 'Aktif' : 'Dikomentari', chip: r[2] ? act : com, note: r[3] }));
+    return { accent: this.props.accent ?? '#00658A', starts, refs };
+  }
+}
+</script>
+</body>
+</html>

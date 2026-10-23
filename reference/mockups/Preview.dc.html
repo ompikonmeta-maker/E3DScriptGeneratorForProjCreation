@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Preview dan validasi — E3D Setup Generator</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:#00658A}a:hover{color:#004C69}
+</style>
+</helmet>
+<div style="width: 100%; min-height: 1420px; box-sizing: border-box; background: #F4F7F9; color: #191C1E; font-family: 'Segoe UI', Roboto, system-ui, sans-serif; font-size: 14px; line-height: 1.45; display: flex; flex-direction: column">
+
+<header style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 24px; background: #FFFFFF; border-bottom: 1px solid #DCE3E8">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 20px">
+<div style="display: flex; align-items: center; gap: 10px">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00658A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"></path><path d="M12 12l8-4.5"></path><path d="M12 12v9"></path><path d="M12 12L4 7.5"></path></svg>
+<span style="font-size: 17px; font-weight: 600">E3D Setup Generator</span>
+</div>
+<span style="font-family: Consolas, 'Cascadia Mono', monospace; font-size: 13px; color: #41484D">ZRF · /MDB-ZRF</span>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<button type="button" style="height: 40px; padding: 0 16px; border: 1px solid #71787E; border-radius: 20px; background: #FFFFFF; color: #00658A; font: inherit; font-weight: 600; cursor: pointer">Import JSON</button>
+<button type="button" style="height: 40px; padding: 0 16px; border: 1px solid #71787E; border-radius: 20px; background: #FFFFFF; color: #00658A; font: inherit; font-weight: 600; cursor: pointer">Export JSON</button>
+<button type="button" style="height: 40px; padding: 0 20px; border: none; border-radius: 20px; background: {{accent}}; color: #FFFFFF; font: inherit; font-weight: 600; cursor: pointer">Generate ZIP</button>
+</div>
+</header>
+
+<div style="display: flex; flex-wrap: wrap; flex: 1 1 auto; align-items: stretch">
+
+<nav aria-label="Langkah" style="flex: 1 1 200px; max-width: 100%; box-sizing: border-box; padding: 20px 12px; background: #FFFFFF; border-right: 1px solid #DCE3E8; display: flex; flex-direction: column; gap: 4px">
+<a href="Project.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 20px; color: #41484D; text-decoration: none"><span style="width: 22px; height: 22px; border-radius: 11px; background: #E3F4E8; color: #1B6B3A; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center">✓</span>Project</a>
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 20px; color: #41484D; text-decoration: none"><span style="width: 22px; height: 22px; border-radius: 11px; background: #E3F4E8; color: #1B6B3A; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center">✓</span>Attribute</a>
+<a href="Relasi.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 20px; color: #41484D; text-decoration: none"><span style="width: 22px; height: 22px; border-radius: 11px; background: #E3F4E8; color: #1B6B3A; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center">✓</span>Relasi &amp; kombinasi</a>
+<a href="Template.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 20px; color: #41484D; text-decoration: none"><span style="width: 22px; height: 22px; border-radius: 11px; background: #E3F4E8; color: #1B6B3A; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center">✓</span>Template</a>
+<a href="Preview.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 20px; background: #CBE6F5; color: #003549; font-weight: 600; text-decoration: none"><span style="width: 22px; height: 22px; border-radius: 11px; background: #00658A; color: #FFFFFF; font-size: 12px; display: flex; align-items: center; justify-content: center">5</span>Preview &amp; validasi</a>
+<a href="Generate.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 20px; color: #41484D; text-decoration: none"><span style="width: 22px; height: 22px; border-radius: 11px; border: 1px solid #71787E; font-size: 12px; box-sizing: border-box; display: flex; align-items: center; justify-content: center">6</span>Generate</a>
+</nav>
+
+<main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 24px; display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 12px">
+<div>
+<h1 style="margin: 0; font-size: 24px; font-weight: 600">Preview &amp; validasi</h1>
+<p style="margin: 4px 0 0; color: #41484D">Hasil akhir sebelum file dibuat. Error memblokir Generate; peringatan tidak.</p>
+</div>
+<a href="Generate.dc.html" style="height: 40px; padding: 0 20px; border-radius: 20px; background: {{accent}}; color: #FFFFFF; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center">Lanjut ke Generate →</a>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px">
+<sc-for list="{{tiles}}" as="t" hint-placeholder-count="6">
+<div style="{{t.style}}">
+<span style="font-size: 12px; font-weight: 600">{{t.label}}</span>
+<span style="font-family: Consolas, 'Cascadia Mono', monospace; font-size: 28px; font-weight: 600; line-height: 1.1">{{t.value}}</span>
+<span style="font-size: 12px">{{t.meta}}</span>
+</div>
+</sc-for>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
+
+<section aria-label="Validasi" style="flex: 1 1 380px; box-sizing: border-box; background: #FFFFFF; border: 1px solid #DCE3E8; border-radius: 12px; padding: 18px 20px; display: flex; flex-direction: column; gap: 4px">
+<h2 style="margin: 0 0 8px; font-size: 16px; font-weight: 600">Validasi</h2>
+<sc-for list="{{checks}}" as="c" hint-placeholder-count="10">
+<div style="display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; border-top: 1px solid #E5EAED">
+<span style="{{c.iconStyle}}">{{c.icon}}</span>
+<div style="flex: 1 1 auto; display: flex; flex-direction: column">
+<span>{{c.text}}</span>
+<span style="font-size: 12px; color: #41484D">{{c.detail}}</span>
+</div>
+<span style="font-size: 12px; color: #41484D; white-space: nowrap">{{c.ref}}</span>
+</div>
+</sc-for>
+</section>
+
+<section aria-label="Tree" style="flex: 1 1 300px; box-sizing: border-box; background: #FFFFFF; border: 1px solid #DCE3E8; border-radius: 12px; padding: 18px 20px; display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px"><h2 style="margin: 0; font-size: 16px; font-weight: 600">Tree (Model Explorer)</h2><span style="font-size: 12px; color: #41484D">Piping</span></div>
+<div style="font-family: Consolas, 'Cascadia Mono', monospace; font-size: 13px; display: flex; flex-direction: column; gap: 2px">
+<sc-for list="{{tree}}" as="n" hint-placeholder-count="14">
+<div style="{{n.style}}"><span style="color: #6F777C">{{n.glyph}}</span>{{n.name}}<span style="color: #6F777C; font-family: 'Segoe UI', Roboto, system-ui, sans-serif; font-size: 12px">{{n.note}}</span></div>
+</sc-for>
+</div>
+</section>
+
+<section aria-label="MDB" style="flex: 1 1 300px; box-sizing: border-box; background: #FFFFFF; border: 1px solid #DCE3E8; border-radius: 12px; padding: 18px 20px; display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px"><h2 style="margin: 0; font-size: 16px; font-weight: 600">/MDB-ZRF</h2><span style="font-size: 12px; color: #41484D">372 member</span></div>
+<div style="display: flex; flex-direction: column; font-size: 13px">
+<sc-for list="{{mdb}}" as="m" hint-placeholder-count="12">
+<div style="{{m.style}}"><span style="width: 40px; color: #6F777C; font-family: Consolas, 'Cascadia Mono', monospace">{{m.pos}}</span><span style="font-family: Consolas, 'Cascadia Mono', monospace">{{m.db}}</span></div>
+</sc-for>
+</div>
+</section>
+
+</div>
+
+<section aria-label="Register" style="background: #FFFFFF; border: 1px solid #DCE3E8; border-radius: 12px; padding: 18px 20px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px">
+<h2 style="margin: 0; font-size: 16px; font-weight: 600">Register DB</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{tabs}}" as="t" hint-placeholder-count="10">
+<button type="button" aria-pressed="{{t.sel}}" style="{{t.style}}">{{t.code}}</button>
+</sc-for>
+</div>
+</div>
+<div style="overflow-x: auto; border: 1px solid #DCE3E8; border-radius: 8px">
+<table style="width: 100%; min-width: 760px; border-collapse: collapse; font-size: 13px">
+<thead><tr style="background: #EEF2F4; text-align: left; font-size: 12px; color: #41484D"><th style="padding: 8px 12px; font-weight: 600">DB</th><th style="padding: 8px 12px; font-weight: 600">DBNO</th><th style="padding: 8px 12px; font-weight: 600">ADD n</th><th style="padding: 8px 12px; font-weight: 600">Site</th><th style="padding: 8px 12px; font-weight: 600">Deskripsi</th><th style="padding: 8px 12px; font-weight: 600">Zone</th></tr></thead>
+<tbody>
+<sc-for list="{{reg}}" as="r" hint-placeholder-count="8">
+<tr style="border-top: 1px solid #E5EAED">
+<td style="padding: 7px 12px; font-family: Consolas, 'Cascadia Mono', monospace; font-weight: 600">{{r.db}}</td>
+<td style="padding: 7px 12px; font-family: Consolas, 'Cascadia Mono', monospace">{{r.no}}</td>
+<td style="padding: 7px 12px; font-family: Consolas, 'Cascadia Mono', monospace">{{r.pos}}</td>
+<td style="padding: 7px 12px; font-family: Consolas, 'Cascadia Mono', monospace">{{r.site}}</td>
+<td style="padding: 7px 12px">{{r.desc}}</td>
+<td style="padding: 7px 12px; font-family: Consolas, 'Cascadia Mono', monospace">{{r.zones}}</td>
+</tr>
+</sc-for>
+<tr style="border-top: 1px solid #E5EAED"><td colspan="6" style="padding: 8px 12px; color: #41484D">+ 17 baris Piping lagi</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#00658A","options":["#00658A","#2E5BA8","#3F6B2A"]},"$preview":{"width":1440,"height":1420}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const tb = 'box-sizing: border-box; border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 2px;';
+    const tiles = [
+      { label: 'Error', value: '0', meta: 'Generate tidak diblokir', style: tb + ' background: #E3F4E8; color: #14522C;' },
+      { label: 'Peringatan', value: '2', meta: 'Tetap bisa Generate', style: tb + ' background: #FFF1D6; color: #4A3200;' },
+      { label: 'Team', value: '11', meta: '5 baru', style: tb + ' background: #FFFFFF; border: 1px solid #DCE3E8; color: #191C1E;' },
+      { label: 'DB', value: '250', meta: '+ 122 referensi', style: tb + ' background: #FFFFFF; border: 1px solid #DCE3E8; color: #191C1E;' },
+      { label: 'Site', value: '340', meta: '250 site + 90 separator', style: tb + ' background: #FFFFFF; border: 1px solid #DCE3E8; color: #191C1E;' },
+      { label: 'Zone', value: '2906', meta: 'dari aturan zone', style: tb + ' background: #FFFFFF; border: 1px solid #DCE3E8; color: #191C1E;' }
+    ];
+    const okI = 'flex: none; width: 22px; height: 22px; border-radius: 11px; background: #E3F4E8; color: #14522C; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center;';
+    const wnI = 'flex: none; width: 22px; height: 22px; border-radius: 11px; background: #FFF1D6; color: #4A3200; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center;';
+    const inI = 'flex: none; width: 22px; height: 22px; border-radius: 11px; background: #EEF2F4; color: #41484D; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center;';
+    const ck = (k, text, detail, ref) => ({ text, detail, ref, icon: k === 'ok' ? '✓' : (k === 'warn' ? '!' : 'i'), iconStyle: k === 'ok' ? okI : (k === 'warn' ? wnI : inI) });
+    const checks = [
+      ck('ok', 'Urutan Team → DB → MDB → Site → Zone', 'Urutan file dan langkah di README', '3.8'),
+      ck('ok', 'Setiap DB punya Team pemilik', '250 DB → 10 team', '1.12'),
+      ck('ok', 'DBNO dalam rentang dan unik', '10101–11071', '1.3'),
+      ck('ok', 'Posisi MDB unik, 1–5000', '1–372', '§2'),
+      ck('ok', 'DB current ≤ 1000', '372', '1.7'),
+      ck('ok', 'Nama diawali / dan huruf besar', '340 site, 2906 zone', '3.5'),
+      ck('ok', 'Tidak ada nama duplikat', 'DB, site, zone', '—'),
+      ck('warn', 'NEW ZONE setelah navigasi ke site belum dites', 'File B3 diberi komentar peringatan', '§9'),
+      ck('warn', 'Aturan zone E/I/T/N belum didefinisikan', 'Hanya zone Dummy untuk disiplin ini', 'PENDING'),
+      ck('info', 'Bentrok dengan DB yang sudah ada tidak dicek', 'Import Export Config di layar Project', '—')
+    ];
+    const tr = (lvl, glyph, name, note) => ({ glyph, name, note: note ? '  ' + note : '', style: 'padding-left: ' + (lvl * 16) + 'px; white-space: nowrap;' });
+    const tree = [
+      tr(0, '▾ ', 'WORLD', ''),
+      tr(1, '▸ ', '/----EQUIPMENT----', ''),
+      tr(1, '  ', '…', '34 site Equipment'),
+      tr(1, '▾ ', '/----PIPING----', 'DESI-L-M1D'),
+      tr(1, '▸ ', '/L----MODULES----', 'DESI-L-M1D'),
+      tr(1, '▾ ', '/L-M1D', 'DESI-L-M1D'),
+      tr(2, '  ', '/L-M1D-PIPE-AD', ''),
+      tr(2, '  ', '/L-M1D-PIPE-AE', ''),
+      tr(2, '  ', '…', '+ 105 zone'),
+      tr(1, '▸ ', '/L-M2D', 'DESI-L-M2D'),
+      tr(1, '▸ ', '/L-M3D', 'DESI-L-M3D'),
+      tr(1, '  ', '…', '+ 29 site'),
+      tr(1, '▸ ', '/----HANDLING----', ''),
+      tr(1, '  ', '…', '')
+    ];
+    const mr = (pos, db, sep) => ({ pos, db, style: 'display: flex; gap: 8px; padding: 4px 0; border-top: 1px solid ' + (sep ? '#C0C8CD' : '#E5EAED') + ';' });
+    const mdb = [
+      mr('1', 'ZRFEQP/DESI-R-M1D'), mr('…', '…'), mr('25', 'ZRFEQP/DESI-R-DUX'),
+      mr('26', 'ZRFPIP/DESI-L-M1D', true), mr('27', 'ZRFPIP/DESI-L-M2D'), mr('…', '…'), mr('50', 'ZRFPIP/DESI-L-DUX'),
+      mr('51', 'ZRFHDL/DESI-M-M1D', true), mr('…', '…'),
+      mr('251', 'MASTER/STLCATA', true), mr('…', '…'), mr('372', 'STR/DESI-V-YYD')
+    ];
+    const tOn = 'height: 30px; min-width: 36px; padding: 0 10px; border: none; border-radius: 15px; background: #00658A; color: #FFFFFF; font-family: Consolas, \'Cascadia Mono\', monospace; font-weight: 600; cursor: pointer;';
+    const tOff = 'height: 30px; min-width: 36px; padding: 0 10px; border: 1px solid #C0C8CD; border-radius: 15px; background: #FFFFFF; color: #191C1E; font-family: Consolas, \'Cascadia Mono\', monospace; cursor: pointer;';
+    const tabs = ['R', 'L', 'M', 'S', 'E', 'A', 'H', 'I', 'T', 'N'].map((c) => ({ code: c, sel: c === 'L' ? 'true' : 'false', style: c === 'L' ? tOn : tOff }));
+    const reg = [
+      ['ZRFPIP/DESI-L-M1D', '10201', '26', '/L-M1D', 'DB for Piping - M1 Liquefaction 1', '107'],
+      ['ZRFPIP/DESI-L-M2D', '10202', '27', '/L-M2D', 'DB for Piping - M2 CO2 Removal', '107'],
+      ['ZRFPIP/DESI-L-M3D', '10203', '28', '/L-M3D', 'DB for Piping - M3 Dehyd/Hg/NGL', '107'],
+      ['ZRFPIP/DESI-L-M4D', '10204', '29', '/L-M4D', 'DB for Piping - M4 Fuel Gas & BOG', '107'],
+      ['ZRFPIP/DESI-L-M5D', '10205', '30', '/L-M5D', 'DB for Piping - M5 Inlet/AGRU/HotWater', '107'],
+      ['ZRFPIP/DESI-L-M6D', '10206', '31', '/L-M6D', 'DB for Piping - M6 Laydown Area', '107'],
+      ['ZRFPIP/DESI-L-Q1D', '10211', '32', '/L-Q1D', 'DB for Piping - PR-M1', '107'],
+      ['ZRFPIP/DESI-L-Q2D', '10212', '33', '/L-Q2D', 'DB for Piping - PR-M2', '107']
+    ].map((r) => ({ db: r[0], no: r[1], pos: r[2], site: r[3], desc: r[4], zones: r[5] }));
+    return { accent: this.props.accent ?? '#00658A', tiles, checks, tree, mdb, tabs, reg };
+  }
+}
+</script>
+</body>
+</html>

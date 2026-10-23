@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Relasi dan kombinasi — E3D Setup Generator</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:#00658A}a:hover{color:#004C69}
+</style>
+</helmet>
+<div style="width: 100%; min-height: 1560px; box-sizing: border-box; background: #F4F7F9; color: #191C1E; font-family: 'Segoe UI', Roboto, system-ui, sans-serif; font-size: 14px; line-height: 1.45; display: flex; flex-direction: column">
+
+<header style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 24px; background: #FFFFFF; border-bottom: 1px solid #DCE3E8">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 20px">
+<div style="display: flex; align-items: center; gap: 10px">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00658A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"></path><path d="M12 12l8-4.5"></path><path d="M12 12v9"></path><path d="M12 12L4 7.5"></path></svg>
+<span style="font-size: 17px; font-weight: 600">E3D Setup Generator</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px">
+<label for="pcode3" style="font-size: 12px; color: #41484D">Kode project</label>
+<input id="pcode3" value="ZRF" style="width: 72px; height: 36px; box-sizing: border-box; padding: 0 10px; border: 1px solid #71787E; border-radius: 6px; font: inherit; font-family: Consolas, 'Cascadia Mono', monospace; background: #FFFFFF; color: #191C1E">
+</div>
+<div style="display: flex; align-items: center; gap: 8px">
+<label for="pmdb3" style="font-size: 12px; color: #41484D">MDB</label>
+<input id="pmdb3" value="/MDB-ZRF" style="width: 128px; height: 36px; box-sizing: border-box; padding: 0 10px; border: 1px solid #71787E; border-radius: 6px; font: inherit; font-family: Consolas, 'Cascadia Mono', monospace; background: #FFFFFF; color: #191C1E">
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<button type="button" style="height: 40px; padding: 0 16px; border: 1px solid #71787E; border-radius: 20px; background: #FFFFFF; color: #00658A; font: inherit; font-weight: 600; cursor: pointer">Import JSON</button>
+<button type="button" style="height: 40px; padding: 0 16px; border: 1px solid #71787E; border-radius: 20px; background: #FFFFFF; color: #00658A; font: inherit; font-weight: 600; cursor: pointer">Export JSON</button>
+<button type="button" style="height: 40px; padding: 0 20px; border: none; border-radius: 20px; background: {{accent}}; color: #FFFFFF; font: inherit; font-weight: 600; cursor: pointer">Generate ZIP</button>
+</div>
+</header>
+
+<div style="display: flex; flex-wrap: wrap; flex: 1 1 auto; align-items: stretch">
+
+<nav aria-label="Langkah" style="flex: 1 1 200px; max-width: 100%; box-sizing: border-box; padding: 20px 12px; background: #FFFFFF; border-right: 1px solid #DCE3E8; display: flex; flex-direction: column; gap: 4px">
+<a href="Project.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 20px; color: #41484D; text-decoration: none"><span style="width: 22px; height: 22px; border-radius: 11px; background: #E3F4E8; color: #1B6B3A; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center">✓</span>Project</a>
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 20px; color: #41484D; text-decoration: none"><span style="width: 22px; height: 22px; border-radius: 11px; background: #E3F4E8; color: #1B6B3A; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center">✓</span>Attribute</a>
+<a href="Relasi.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 20px; background: #CBE6F5; color: #003549; font-weight: 600; text-decoration: none"><span style="width: 22px; height: 22px; border-radius: 11px; background: #00658A; color: #FFFFFF; font-size: 12px; display: flex; align-items: center; justify-content: center">3</span>Relasi &amp; kombinasi</a>
+<a href="Template.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 20px; color: #41484D; text-decoration: none"><span style="width: 22px; height: 22px; border-radius: 11px; border: 1px solid #71787E; font-size: 12px; box-sizing: border-box; display: flex; align-items: center; justify-content: center">4</span>Template</a>
+<a href="Preview.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 20px; color: #41484D; text-decoration: none"><span style="width: 22px; height: 22px; border-radius: 11px; border: 1px solid #71787E; font-size: 12px; box-sizing: border-box; display: flex; align-items: center; justify-content: center">5</span>Preview &amp; validasi</a>
+<a href="Generate.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 20px; color: #41484D; text-decoration: none"><span style="width: 22px; height: 22px; border-radius: 11px; border: 1px solid #71787E; font-size: 12px; box-sizing: border-box; display: flex; align-items: center; justify-content: center">6</span>Generate</a>
+</nav>
+
+<main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 24px; display: flex; flex-direction: column; gap: 20px">
+<div>
+<h1 style="margin: 0; font-size: 24px; font-weight: 600">Relasi &amp; kombinasi</h1>
+<p style="margin: 4px 0 0; color: #41484D">Tentukan objek apa yang dibuat dan urutannya. Urutan di sini dipakai untuk posisi MDB, urutan NEW SITE, dan DB tempat separator dibuat.</p>
+</div>
+
+<section aria-label="Relasi" style="background: #FFFFFF; border: 1px solid #DCE3E8; border-radius: 12px; padding: 18px 20px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px">
+<h2 style="margin: 0; font-size: 16px; font-weight: 600">1. Relasi</h2>
+<span style="font-size: 12px; color: #41484D">Dari kolom bertipe Referensi di layar Attribute</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px">
+<sc-for list="{{rels}}" as="r" hint-placeholder-count="4">
+<div style="border: 1px solid #E5EAED; border-radius: 8px; padding: 12px; background: #F7F9FA; display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px">
+<span style="height: 26px; padding: 0 8px; border-radius: 6px; background: #CBE6F5; color: #003549; font-family: Consolas, 'Cascadia Mono', monospace; font-size: 13px; display: inline-flex; align-items: center">{{r.from}}</span>
+<span style="color: #41484D" aria-hidden="true">→</span>
+<span style="height: 26px; padding: 0 8px; border-radius: 6px; border: 1px solid #C0C8CD; background: #FFFFFF; font-size: 13px; display: inline-flex; align-items: center; box-sizing: border-box">{{r.to}}</span>
+</div>
+<div style="font-size: 12px; color: #41484D">{{r.meta}}</div>
+<span style="align-self: flex-start; padding: 3px 10px; border-radius: 14px; background: #E3F4E8; color: #14522C; font-size: 12px">✓ {{r.status}}</span>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section aria-label="Kombinasi" style="background: #FFFFFF; border: 1px solid #DCE3E8; border-radius: 12px; padding: 18px 20px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px">
+<div>
+<h2 style="margin: 0; font-size: 16px; font-weight: 600">2. Kombinasi</h2>
+<div style="font-size: 12px; color: #41484D">Setiap sel tercentang = 1 DB + 1 site</div>
+</div>
+<div role="group" aria-label="Mode kombinasi" style="display: flex; border: 1px solid #71787E; border-radius: 20px; overflow: hidden">
+<button type="button" style="height: 36px; padding: 0 14px; border: none; background: #FFFFFF; color: #191C1E; font: inherit; font-size: 13px; cursor: pointer">Semua</button>
+<button type="button" aria-pressed="true" style="height: 36px; padding: 0 14px; border: none; border-left: 1px solid #71787E; border-right: 1px solid #71787E; background: #CBE6F5; color: #003549; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">✓ Matriks</button>
+<button type="button" style="height: 36px; padding: 0 14px; border: none; background: #FFFFFF; color: #191C1E; font: inherit; font-size: 13px; cursor: pointer">Kondisi</button>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 13px">
+<span style="color: #41484D">Baris</span><span style="height: 26px; padding: 0 8px; border-radius: 6px; background: #CBE6F5; color: #003549; font-family: Consolas, 'Cascadia Mono', monospace; display: inline-flex; align-items: center">Disiplin</span>
+<span style="color: #41484D; margin-left: 8px">Kolom</span><span style="height: 26px; padding: 0 8px; border-radius: 6px; background: #CBE6F5; color: #003549; font-family: Consolas, 'Cascadia Mono', monospace; display: inline-flex; align-items: center">Area</span>
+<span style="color: #41484D; margin-left: 8px">Grup kolom</span><span style="height: 26px; padding: 0 8px; border-radius: 6px; background: #CBE6F5; color: #003549; font-family: Consolas, 'Cascadia Mono', monospace; display: inline-flex; align-items: center">Area.grup</span>
+</div>
+<div style="overflow-x: auto; border: 1px solid #DCE3E8; border-radius: 8px">
+<table style="border-collapse: collapse; min-width: 100%; font-size: 12px">
+<thead>
+<tr style="background: #EEF2F4; color: #41484D">
+<th scope="col" style="padding: 6px 10px; text-align: left; font-weight: 600; position: sticky; left: 0; background: #EEF2F4">Grup</th>
+<sc-for list="{{groups}}" as="g" hint-placeholder-count="8">
+<th scope="colgroup" colspan="{{g.span}}" style="padding: 6px 4px; font-weight: 600; border-left: 1px solid #DCE3E8; white-space: nowrap">{{g.name}}</th>
+</sc-for>
+<th scope="col" style="padding: 6px 10px; font-weight: 600; border-left: 1px solid #DCE3E8">DB</th>
+</tr>
+<tr style="background: #F7F9FA; color: #41484D">
+<th scope="col" style="padding: 6px 10px; text-align: left; font-weight: 600; position: sticky; left: 0; background: #F7F9FA">Disiplin \ Area</th>
+<sc-for list="{{areas}}" as="a" hint-placeholder-count="25">
+<th scope="col" style="{{a.hstyle}}">{{a.code}}</th>
+</sc-for>
+<th scope="col" style="padding: 6px 10px; border-left: 1px solid #DCE3E8"></th>
+</tr>
+</thead>
+<tbody>
+<sc-for list="{{matrix}}" as="m" hint-placeholder-count="10">
+<tr style="border-top: 1px solid #E5EAED">
+<th scope="row" style="padding: 4px 10px; text-align: left; font-weight: 600; white-space: nowrap; position: sticky; left: 0; background: #FFFFFF"><span style="font-family: Consolas, 'Cascadia Mono', monospace">{{m.code}}</span> <span style="font-weight: 400; color: #41484D">{{m.name}}</span></th>
+<sc-for list="{{m.cells}}" as="c" hint-placeholder-count="25">
+<td style="{{c.style}}"><input type="checkbox" checked aria-label="{{c.label}}" style="width: 16px; height: 16px; margin: 0; accent-color: {{accent}}; cursor: pointer"></td>
+</sc-for>
+<td style="padding: 4px 10px; text-align: center; font-family: Consolas, 'Cascadia Mono', monospace; font-weight: 600; border-left: 1px solid #DCE3E8">{{m.count}}</td>
+</tr>
+</sc-for>
+<tr style="border-top: 1px solid #C0C8CD; background: #F7F9FA">
+<th scope="row" style="padding: 6px 10px; text-align: left; font-weight: 600; position: sticky; left: 0; background: #F7F9FA">Total</th>
+<td colspan="25" style="padding: 6px 10px; color: #41484D">10 disiplin × 25 area</td>
+<td style="padding: 6px 10px; text-align: center; font-family: Consolas, 'Cascadia Mono', monospace; font-weight: 600; border-left: 1px solid #DCE3E8">250</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<span style="padding: 4px 10px; border-radius: 14px; background: #E3F4E8; color: #14522C; font-size: 12px">✓ 250 DB current ≤ 1000 (1.7)</span>
+<span style="padding: 4px 10px; border-radius: 14px; background: #EEF2F4; color: #41484D; font-size: 12px">Buka centang = DB dan site tidak dibuat; DBNO lain tetap</span>
+</div>
+</section>
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
+
+<section aria-label="Daftar objek" style="flex: 1 1 260px; max-width: 100%; box-sizing: border-box; background: #FFFFFF; border: 1px solid #DCE3E8; border-radius: 12px; padding: 18px 20px; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-size: 16px; font-weight: 600">3. Daftar objek</h2>
+<sc-for list="{{objs}}" as="o" hint-placeholder-count="5">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 10px 0; border-top: 1px solid #E5EAED">
+<div style="display: flex; flex-direction: column">
+<span style="font-weight: 600">{{o.name}}</span>
+<span style="font-size: 12px; color: #41484D">{{o.meta}}</span>
+</div>
+<span style="font-family: Consolas, 'Cascadia Mono', monospace; font-size: 20px; font-weight: 600">{{o.count}}</span>
+</div>
+</sc-for>
+</section>
+
+<section aria-label="Urutan" style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; background: #FFFFFF; border: 1px solid #DCE3E8; border-radius: 12px; padding: 18px 20px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px">
+<h2 style="margin: 0; font-size: 16px; font-weight: 600">4. Urutan</h2>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 12px; color: #41484D">Kunci:
+<span style="height: 24px; padding: 0 8px; border-radius: 6px; background: #CBE6F5; color: #003549; font-family: Consolas, 'Cascadia Mono', monospace; display: inline-flex; align-items: center">Disiplin.urutan</span>→
+<span style="height: 24px; padding: 0 8px; border-radius: 6px; background: #CBE6F5; color: #003549; font-family: Consolas, 'Cascadia Mono', monospace; display: inline-flex; align-items: center">Grup</span>→
+<span style="height: 24px; padding: 0 8px; border-radius: 6px; background: #CBE6F5; color: #003549; font-family: Consolas, 'Cascadia Mono', monospace; display: inline-flex; align-items: center">baris Area</span>
+</div>
+</div>
+<div role="tablist" aria-label="Disiplin" style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{tabs}}" as="t" hint-placeholder-count="10">
+<button type="button" role="tab" aria-selected="{{t.sel}}" style="{{t.style}}">{{t.code}}</button>
+</sc-for>
+</div>
+<div style="overflow-x: auto; border: 1px solid #DCE3E8; border-radius: 8px">
+<table style="width: 100%; min-width: 620px; border-collapse: collapse; font-size: 13px">
+<thead>
+<tr style="background: #EEF2F4; text-align: left; font-size: 12px; color: #41484D">
+<th style="padding: 8px 10px; font-weight: 600; width: 28px"><span style="position: absolute; left: -9999px">Geser</span></th>
+<th style="padding: 8px 10px; font-weight: 600">#</th>
+<th style="padding: 8px 10px; font-weight: 600">Jenis</th>
+<th style="padding: 8px 10px; font-weight: 600">NEW SITE</th>
+<th style="padding: 8px 10px; font-weight: 600">DB</th>
+<th style="padding: 8px 10px; font-weight: 600">ADD n</th>
+</tr>
+</thead>
+<tbody>
+<sc-for list="{{order}}" as="o" hint-placeholder-count="12">
+<tr style="{{o.rowStyle}}">
+<td style="padding: 6px 10px; color: #6F777C"><button type="button" aria-label="Geser baris" style="width: 24px; height: 24px; border: none; background: transparent; color: #6F777C; cursor: grab; padding: 0">⋮⋮</button></td>
+<td style="padding: 6px 10px; color: #6F777C">{{o.n}}</td>
+<td style="padding: 6px 10px"><span style="{{o.kindStyle}}">{{o.kind}}</span></td>
+<td style="padding: 6px 10px; font-family: Consolas, 'Cascadia Mono', monospace; font-weight: 600">{{o.site}}</td>
+<td style="padding: 6px 10px; font-family: Consolas, 'Cascadia Mono', monospace">{{o.db}}<span style="color: #6F777C">{{o.dbNote}}</span></td>
+<td style="padding: 6px 10px; font-family: Consolas, 'Cascadia Mono', monospace">{{o.pos}}</td>
+</tr>
+</sc-for>
+<tr style="border-top: 1px solid #E5EAED">
+<td colspan="6" style="padding: 8px 10px; color: #41484D">+ 22 baris lagi (total Piping: 9 separator + 25 site)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<span style="padding: 4px 10px; border-radius: 14px; background: #E3F4E8; color: #14522C; font-size: 12px">✓ Urutan MDB = urutan NEW SITE</span>
+<span style="padding: 4px 10px; border-radius: 14px; background: #EEF2F4; color: #41484D; font-size: 12px">DB ditulis sekali per DB; baris tanpa DB ikut DB sebelumnya (3.2, 3.3)</span>
+<span style="padding: 4px 10px; border-radius: 14px; background: #FFF1D6; color: #4A3200; font-size: 12px">Urutan site antar-DB mengikuti MDB: belum terbukti (§9)</span>
+</div>
+</section>
+
+</div>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#00658A","options":["#00658A","#2E5BA8","#3F6B2A"]},"$preview":{"width":1440,"height":1560}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const rels = [
+      { from: 'Disiplin.team', to: 'Team', meta: '10 baris merujuk 10 team', status: 'Semua kode ada' },
+      { from: 'Team.anggota', to: 'User', meta: '6 user di 3 team · menjadi SET TEAM + TADD', status: 'Semua user ada' },
+      { from: 'Area.grup', to: 'Grup', meta: '25 area di 8 grup', status: 'Semua kode ada' },
+      { from: 'Area.fungsi', to: 'Function', meta: '25 area · D 22, F 1, S 1, X 1', status: 'Semua kode ada' }
+    ];
+    const groupDefs = [
+      ['MODULES', ['M1', 'M2', 'M3', 'M4', 'M5', 'M6']],
+      ['PIPE-RACK', ['Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'R1', 'R2']],
+      ['HULL-DECK', ['HC', 'HO', 'HF', 'HL']],
+      ['HULL-BODY', ['HB']],
+      ['HOOK-UP', ['HK']],
+      ['OTHERS', ['FD', 'TR', 'LV']],
+      ['FUTURE-STUDY', ['FU', 'ST']],
+      ['DUMMY', ['DU']]
+    ];
+    const groups = groupDefs.map((g) => ({ name: g[0], span: g[1].length }));
+    const areas = [];
+    groupDefs.forEach((g) => g[1].forEach((code, i) => areas.push({ code, first: i === 0 })));
+    const hBase = 'padding: 6px 4px; font-weight: 600; font-family: Consolas, \'Cascadia Mono\', monospace; min-width: 28px;';
+    areas.forEach((a) => { a.hstyle = hBase + (a.first ? ' border-left: 1px solid #DCE3E8;' : ''); });
+    const discs = [['R', 'Equipment'], ['L', 'Piping'], ['M', 'Handling'], ['S', 'Safety'], ['E', 'Electrical'], ['A', 'Architecture'], ['H', 'HVAC'], ['I', 'Instrumentation'], ['T', 'Telecom'], ['N', 'Structure']];
+    const cBase = 'padding: 4px; text-align: center;';
+    const matrix = discs.map((d) => ({
+      code: d[0], name: d[1], count: areas.length,
+      cells: areas.map((a) => ({ label: d[1] + ' × ' + a.code, style: cBase + (a.first ? ' border-left: 1px solid #DCE3E8;' : '') }))
+    }));
+    const objs = [
+      { name: 'Team', meta: '5 baru, 6 sudah ada', count: '11' },
+      { name: 'DB', meta: 'dari sel matriks', count: '250' },
+      { name: 'Site', meta: '1 per DB', count: '250' },
+      { name: 'Separator', meta: '10 disiplin × (1 + 8 grup)', count: '90' },
+      { name: 'Zone', meta: 'dihitung dari aturan di Template', count: '—' }
+    ];
+    const tabOn = 'height: 32px; min-width: 40px; padding: 0 10px; border: none; border-radius: 16px; background: #00658A; color: #FFFFFF; font-family: Consolas, \'Cascadia Mono\', monospace; font-weight: 600; cursor: pointer;';
+    const tabOff = 'height: 32px; min-width: 40px; padding: 0 10px; border: 1px solid #C0C8CD; border-radius: 16px; background: #FFFFFF; color: #191C1E; font-family: Consolas, \'Cascadia Mono\', monospace; cursor: pointer;';
+    const tabs = discs.map((d) => ({ code: d[0], sel: d[0] === 'L' ? 'true' : 'false', style: d[0] === 'L' ? tabOn : tabOff }));
+    const kSep = 'padding: 2px 8px; border-radius: 10px; background: #FFE0CC; color: #5C2A00; font-size: 12px; font-weight: 600;';
+    const kSite = 'padding: 2px 8px; border-radius: 10px; background: #EEF2F4; color: #41484D; font-size: 12px; font-weight: 600;';
+    const rSep = 'border-top: 1px solid #E5EAED; background: #FFF8F3;';
+    const rSite = 'border-top: 1px solid #E5EAED;';
+    const raw = [
+      ['Sep. disiplin', '/----PIPING----', 'ZRFPIP/DESI-L-M1D', '', '—'],
+      ['Sep. grup', '/L----MODULES----', '', ' (sama)', '—'],
+      ['Site', '/L-M1D', '', ' (sama)', '26'],
+      ['Site', '/L-M2D', 'ZRFPIP/DESI-L-M2D', '', '27'],
+      ['Site', '/L-M3D', 'ZRFPIP/DESI-L-M3D', '', '28'],
+      ['Site', '/L-M4D', 'ZRFPIP/DESI-L-M4D', '', '29'],
+      ['Site', '/L-M5D', 'ZRFPIP/DESI-L-M5D', '', '30'],
+      ['Site', '/L-M6D', 'ZRFPIP/DESI-L-M6D', '', '31'],
+      ['Sep. grup', '/L----PIPE-RACK----', 'ZRFPIP/DESI-L-Q1D', '', '—'],
+      ['Site', '/L-Q1D', '', ' (sama)', '32'],
+      ['Site', '/L-Q2D', 'ZRFPIP/DESI-L-Q2D', '', '33'],
+      ['Site', '/L-Q3D', 'ZRFPIP/DESI-L-Q3D', '', '34']
+    ];
+    const order = raw.map((r, i) => {
+      const sep = r[0] !== 'Site';
+      return { n: i + 1, kind: r[0], site: r[1], db: r[2], dbNote: r[3], pos: r[4], kindStyle: sep ? kSep : kSite, rowStyle: sep ? rSep : rSite };
+    });
+    return { accent: this.props.accent ?? '#00658A', rels, groups, areas, matrix, objs, tabs, order };
+  }
+}
+</script>
+</body>
+</html>

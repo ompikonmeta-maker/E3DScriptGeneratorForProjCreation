@@ -1,0 +1,23 @@
+$* ===========================================================
+$* ZRF - STEP 0 - TEAMS - ADMIN (SYSTEM) - both routes
+$* Skip a line if the team already exists (error 1,29 Team name already defined).
+$* Run once, before discipline 01.
+$* ===========================================================
+$*
+$* --- 5 new discipline teams ---
+CREATE TEAM ZRFHDL DESC 'TEAM FOR HANDLING ZR FLNG'
+CREATE TEAM ZRFSFT DESC 'TEAM FOR SAFETY ZR FLNG'
+CREATE TEAM ZRFARC DESC 'TEAM FOR ARCHITECTURE ZR FLNG'
+CREATE TEAM ZRFHVA DESC 'TEAM FOR HVAC ZR FLNG'
+CREATE TEAM ZRFTEL DESC 'TEAM FOR TELECOM ZR FLNG'
+$*
+$* --- only if the existing ZRF teams were deleted (normally keep) ---
+$* CREATE TEAM ZRFEQP DESC 'TEAM FOR EQUIPMENT ZR FLNG'
+$* CREATE TEAM ZRFPIP DESC 'TEAM FOR PIPING ZR FLNG'
+$* CREATE TEAM ZRFELE DESC 'TEAM FOR ELECTRICAL ZR FLNG'
+$* CREATE TEAM ZRFINS DESC 'TEAM FOR INSTRUMENTATION ZR FLNG'
+$* CREATE TEAM ZRFSTR DESC 'TEAM FOR STRUCTURE ZR FLNG'
+$* SET TEAM ZRFEQP
+$* TADD SMRENDRA NMHIZQIL
+$* SET TEAM ZRFPIP
+$* TADD SMRENDRA NMHIZQIL

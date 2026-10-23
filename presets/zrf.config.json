@@ -1,0 +1,1978 @@
+{
+  "schema": 1,
+  "project": {
+    "code": "ZRF",
+    "name": "ZR FLNG",
+    "target": "E3D 3.1.8.1 / Administration 2.1.0.1",
+    "filePrefix": "ZRF-",
+    "packageName": "ZRF-SETUP-PACKAGE.zip",
+    "lineEnding": "CRLF"
+  },
+  "mdbs": [
+    {
+      "name": "/MDB-ZRF",
+      "default": true
+    }
+  ],
+  "dbDefaults": {
+    "type": "DESI",
+    "access": "MULTIWRITE",
+    "claim": "IMPLICIT"
+  },
+  "attributes": [
+    {
+      "id": "team",
+      "name": "Team",
+      "role": "team",
+      "columns": [
+        {
+          "id": "kode",
+          "name": "Kode",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "desc",
+          "name": "Deskripsi",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "existing",
+          "name": "Sudah ada",
+          "type": "boolean"
+        },
+        {
+          "id": "anggota",
+          "name": "Anggota",
+          "type": "refList",
+          "target": "user"
+        }
+      ],
+      "rows": [
+        {
+          "kode": "ZRFEQP",
+          "desc": "TEAM FOR EQUIPMENT ZR FLNG",
+          "existing": true,
+          "anggota": [
+            "SMRENDRA",
+            "NMHIZQIL"
+          ]
+        },
+        {
+          "kode": "ZRFPIP",
+          "desc": "TEAM FOR PIPING ZR FLNG",
+          "existing": true,
+          "anggota": [
+            "SMRENDRA",
+            "NMHIZQIL"
+          ]
+        },
+        {
+          "kode": "ZRFHDL",
+          "desc": "TEAM FOR HANDLING ZR FLNG",
+          "existing": false,
+          "anggota": []
+        },
+        {
+          "kode": "ZRFSFT",
+          "desc": "TEAM FOR SAFETY ZR FLNG",
+          "existing": false,
+          "anggota": []
+        },
+        {
+          "kode": "ZRFELE",
+          "desc": "TEAM FOR ELECTRICAL ZR FLNG",
+          "existing": true,
+          "anggota": []
+        },
+        {
+          "kode": "ZRFARC",
+          "desc": "TEAM FOR ARCHITECTURE ZR FLNG",
+          "existing": false,
+          "anggota": []
+        },
+        {
+          "kode": "ZRFHVA",
+          "desc": "TEAM FOR HVAC ZR FLNG",
+          "existing": false,
+          "anggota": []
+        },
+        {
+          "kode": "ZRFINS",
+          "desc": "TEAM FOR INSTRUMENT ZR FLNG",
+          "existing": true,
+          "anggota": []
+        },
+        {
+          "kode": "ZRFTEL",
+          "desc": "TEAM FOR TELECOM ZR FLNG",
+          "existing": false,
+          "anggota": []
+        },
+        {
+          "kode": "ZRFSTR",
+          "desc": "TEAM FOR STRUCTURE ZR FLNG",
+          "existing": true,
+          "anggota": []
+        },
+        {
+          "kode": "ZRFADM",
+          "desc": "TEAM FOR ADMINISTRATOR ZR FLNG",
+          "existing": true,
+          "anggota": [
+            "TSETIANTO",
+            "AANTARIKSA",
+            "PKUSUMA",
+            "SYSTEM"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "user",
+      "name": "User",
+      "role": "user",
+      "columns": [
+        {
+          "id": "kode",
+          "name": "Kode",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "desc",
+          "name": "Deskripsi",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "free",
+          "name": "Free user",
+          "type": "boolean"
+        }
+      ],
+      "rows": [
+        {
+          "kode": "TSETIANTO",
+          "desc": "Free user (Admin)",
+          "free": true
+        },
+        {
+          "kode": "AANTARIKSA",
+          "desc": "Free user",
+          "free": true
+        },
+        {
+          "kode": "PKUSUMA",
+          "desc": "Free user",
+          "free": true
+        },
+        {
+          "kode": "SYSTEM",
+          "desc": "Free user",
+          "free": true
+        },
+        {
+          "kode": "SMRENDRA",
+          "desc": "General user",
+          "free": false
+        },
+        {
+          "kode": "NMHIZQIL",
+          "desc": "General user",
+          "free": false
+        }
+      ]
+    },
+    {
+      "id": "disiplin",
+      "name": "Disiplin",
+      "role": "none",
+      "columns": [
+        {
+          "id": "kode",
+          "name": "Kode",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "desc",
+          "name": "Deskripsi",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "urutan",
+          "name": "Urutan",
+          "type": "number",
+          "required": true
+        },
+        {
+          "id": "team",
+          "name": "Team",
+          "type": "ref",
+          "required": true,
+          "target": "team"
+        },
+        {
+          "id": "mdbMulai",
+          "name": "MDB mulai",
+          "type": "number",
+          "required": true
+        }
+      ],
+      "rows": [
+        {
+          "kode": "R",
+          "desc": "Equipment",
+          "urutan": 1,
+          "team": "ZRFEQP",
+          "mdbMulai": 1
+        },
+        {
+          "kode": "L",
+          "desc": "Piping",
+          "urutan": 2,
+          "team": "ZRFPIP",
+          "mdbMulai": 26
+        },
+        {
+          "kode": "M",
+          "desc": "Handling",
+          "urutan": 3,
+          "team": "ZRFHDL",
+          "mdbMulai": 51
+        },
+        {
+          "kode": "S",
+          "desc": "Safety",
+          "urutan": 4,
+          "team": "ZRFSFT",
+          "mdbMulai": 76
+        },
+        {
+          "kode": "E",
+          "desc": "Electrical",
+          "urutan": 5,
+          "team": "ZRFELE",
+          "mdbMulai": 101
+        },
+        {
+          "kode": "A",
+          "desc": "Architecture",
+          "urutan": 6,
+          "team": "ZRFARC",
+          "mdbMulai": 126
+        },
+        {
+          "kode": "H",
+          "desc": "HVAC",
+          "urutan": 7,
+          "team": "ZRFHVA",
+          "mdbMulai": 151
+        },
+        {
+          "kode": "I",
+          "desc": "Instrumentation",
+          "urutan": 8,
+          "team": "ZRFINS",
+          "mdbMulai": 176
+        },
+        {
+          "kode": "T",
+          "desc": "Telecom",
+          "urutan": 9,
+          "team": "ZRFTEL",
+          "mdbMulai": 201
+        },
+        {
+          "kode": "N",
+          "desc": "Structure",
+          "urutan": 10,
+          "team": "ZRFSTR",
+          "mdbMulai": 226
+        }
+      ]
+    },
+    {
+      "id": "grup",
+      "name": "Grup",
+      "role": "separator",
+      "columns": [
+        {
+          "id": "kode",
+          "name": "Kode",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "desc",
+          "name": "Deskripsi",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "urutan",
+          "name": "Urutan",
+          "type": "number",
+          "required": true
+        }
+      ],
+      "rows": [
+        {
+          "kode": "MODULES",
+          "desc": "Modules",
+          "urutan": 1
+        },
+        {
+          "kode": "PIPE-RACK",
+          "desc": "Pipe rack",
+          "urutan": 2
+        },
+        {
+          "kode": "HULL-DECK",
+          "desc": "Hull deck",
+          "urutan": 3
+        },
+        {
+          "kode": "HULL-BODY",
+          "desc": "Hull body",
+          "urutan": 4
+        },
+        {
+          "kode": "HOOK-UP",
+          "desc": "Hook up",
+          "urutan": 5
+        },
+        {
+          "kode": "OTHERS",
+          "desc": "Others",
+          "urutan": 6
+        },
+        {
+          "kode": "FUTURE-STUDY",
+          "desc": "Future and study",
+          "urutan": 7
+        },
+        {
+          "kode": "DUMMY",
+          "desc": "Dummy",
+          "urutan": 8
+        }
+      ]
+    },
+    {
+      "id": "fungsi",
+      "name": "Function",
+      "role": "none",
+      "columns": [
+        {
+          "id": "kode",
+          "name": "Kode",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "desc",
+          "name": "Deskripsi",
+          "type": "text",
+          "required": true
+        }
+      ],
+      "rows": [
+        {
+          "kode": "D",
+          "desc": "Installed"
+        },
+        {
+          "kode": "F",
+          "desc": "Future"
+        },
+        {
+          "kode": "S",
+          "desc": "Study"
+        },
+        {
+          "kode": "X",
+          "desc": "Dummy"
+        }
+      ]
+    },
+    {
+      "id": "area",
+      "name": "Area",
+      "role": "none",
+      "columns": [
+        {
+          "id": "kode",
+          "name": "Kode",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "desc",
+          "name": "Deskripsi",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "slot",
+          "name": "Slot",
+          "type": "number",
+          "required": true
+        },
+        {
+          "id": "grup",
+          "name": "Grup",
+          "type": "ref",
+          "required": true,
+          "target": "grup"
+        },
+        {
+          "id": "fungsi",
+          "name": "Fungsi",
+          "type": "ref",
+          "required": true,
+          "target": "fungsi"
+        }
+      ],
+      "rows": [
+        {
+          "kode": "M1",
+          "desc": "M1 Liquefaction 1",
+          "slot": 1,
+          "grup": "MODULES",
+          "fungsi": "D"
+        },
+        {
+          "kode": "M2",
+          "desc": "M2 CO2 Removal",
+          "slot": 2,
+          "grup": "MODULES",
+          "fungsi": "D"
+        },
+        {
+          "kode": "M3",
+          "desc": "M3 Dehyd/Hg/NGL",
+          "slot": 3,
+          "grup": "MODULES",
+          "fungsi": "D"
+        },
+        {
+          "kode": "M4",
+          "desc": "M4 Fuel Gas & BOG",
+          "slot": 4,
+          "grup": "MODULES",
+          "fungsi": "D"
+        },
+        {
+          "kode": "M5",
+          "desc": "M5 Inlet/AGRU/HotWater",
+          "slot": 5,
+          "grup": "MODULES",
+          "fungsi": "D"
+        },
+        {
+          "kode": "M6",
+          "desc": "M6 Laydown Area",
+          "slot": 6,
+          "grup": "MODULES",
+          "fungsi": "D"
+        },
+        {
+          "kode": "Q1",
+          "desc": "PR-M1",
+          "slot": 11,
+          "grup": "PIPE-RACK",
+          "fungsi": "D"
+        },
+        {
+          "kode": "Q2",
+          "desc": "PR-M2",
+          "slot": 12,
+          "grup": "PIPE-RACK",
+          "fungsi": "D"
+        },
+        {
+          "kode": "Q3",
+          "desc": "PR-M3",
+          "slot": 13,
+          "grup": "PIPE-RACK",
+          "fungsi": "D"
+        },
+        {
+          "kode": "Q4",
+          "desc": "PR-M4",
+          "slot": 14,
+          "grup": "PIPE-RACK",
+          "fungsi": "D"
+        },
+        {
+          "kode": "Q5",
+          "desc": "PR-M5",
+          "slot": 15,
+          "grup": "PIPE-RACK",
+          "fungsi": "D"
+        },
+        {
+          "kode": "R1",
+          "desc": "PR1",
+          "slot": 16,
+          "grup": "PIPE-RACK",
+          "fungsi": "D"
+        },
+        {
+          "kode": "R2",
+          "desc": "PR2",
+          "slot": 17,
+          "grup": "PIPE-RACK",
+          "fungsi": "D"
+        },
+        {
+          "kode": "HC",
+          "desc": "Hull Deck Crane Laydown",
+          "slot": 21,
+          "grup": "HULL-DECK",
+          "fungsi": "D"
+        },
+        {
+          "kode": "HO",
+          "desc": "Hull Deck Crane Offloading",
+          "slot": 22,
+          "grup": "HULL-DECK",
+          "fungsi": "D"
+        },
+        {
+          "kode": "HF",
+          "desc": "Hull Deck Flare",
+          "slot": 23,
+          "grup": "HULL-DECK",
+          "fungsi": "D"
+        },
+        {
+          "kode": "HL",
+          "desc": "Hull Deck LNG Offloading",
+          "slot": 24,
+          "grup": "HULL-DECK",
+          "fungsi": "D"
+        },
+        {
+          "kode": "HB",
+          "desc": "Hull Body",
+          "slot": 31,
+          "grup": "HULL-BODY",
+          "fungsi": "D"
+        },
+        {
+          "kode": "HK",
+          "desc": "Hook Up",
+          "slot": 41,
+          "grup": "HOOK-UP",
+          "fungsi": "D"
+        },
+        {
+          "kode": "FD",
+          "desc": "Fore Laydown",
+          "slot": 51,
+          "grup": "OTHERS",
+          "fungsi": "D"
+        },
+        {
+          "kode": "TR",
+          "desc": "Turret",
+          "slot": 52,
+          "grup": "OTHERS",
+          "fungsi": "D"
+        },
+        {
+          "kode": "LV",
+          "desc": "Living Quarters",
+          "slot": 53,
+          "grup": "OTHERS",
+          "fungsi": "D"
+        },
+        {
+          "kode": "FU",
+          "desc": "Future",
+          "slot": 61,
+          "grup": "FUTURE-STUDY",
+          "fungsi": "F"
+        },
+        {
+          "kode": "ST",
+          "desc": "Study",
+          "slot": 62,
+          "grup": "FUTURE-STUDY",
+          "fungsi": "S"
+        },
+        {
+          "kode": "DU",
+          "desc": "Dummy Model",
+          "slot": 71,
+          "grup": "DUMMY",
+          "fungsi": "X"
+        }
+      ]
+    },
+    {
+      "id": "fluid",
+      "name": "Fluid",
+      "role": "none",
+      "columns": [
+        {
+          "id": "kode",
+          "name": "Kode",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "desc",
+          "name": "Deskripsi",
+          "type": "text",
+          "required": true
+        }
+      ],
+      "rows": [
+        {
+          "kode": "AD",
+          "desc": "AMINE CLOSED DRAIN"
+        },
+        {
+          "kode": "AE",
+          "desc": "CITRIC ACID (FOR MEG)"
+        },
+        {
+          "kode": "AF",
+          "desc": "ANTI-FOAM"
+        },
+        {
+          "kode": "AL",
+          "desc": "LEAN AMINE"
+        },
+        {
+          "kode": "AR",
+          "desc": "RICH AMINE"
+        },
+        {
+          "kode": "BA",
+          "desc": "BALLAST WATER"
+        },
+        {
+          "kode": "BD",
+          "desc": "BLOWDOWN"
+        },
+        {
+          "kode": "BE",
+          "desc": "EMULSION BREAKER"
+        },
+        {
+          "kode": "BF",
+          "desc": "BOIL-OFF GAS"
+        },
+        {
+          "kode": "BI",
+          "desc": "BIOCIDE"
+        },
+        {
+          "kode": "CA",
+          "desc": "COMPRESSED AIR"
+        },
+        {
+          "kode": "CB",
+          "desc": "CRYOGENIC LIQUID BLOWDOWN"
+        },
+        {
+          "kode": "CD",
+          "desc": "CRYOGENIC CLOSED DRAIN"
+        },
+        {
+          "kode": "CF",
+          "desc": "HIGH EXPANSION FOAM"
+        },
+        {
+          "kode": "CG",
+          "desc": "COAGULANT"
+        },
+        {
+          "kode": "CI",
+          "desc": "CORROSION INHIBITOR"
+        },
+        {
+          "kode": "CL",
+          "desc": "CRUDE OILWASHING"
+        },
+        {
+          "kode": "CN",
+          "desc": "CRYOGENIC OPEN DRAIN"
+        },
+        {
+          "kode": "CR",
+          "desc": "COLD MR"
+        },
+        {
+          "kode": "CS",
+          "desc": "CAUSTIC SODA"
+        },
+        {
+          "kode": "CX",
+          "desc": "CARBON DIOXYDE"
+        },
+        {
+          "kode": "CZ",
+          "desc": "COOUNG WATER SUPPLY"
+        },
+        {
+          "kode": "DC",
+          "desc": "CLOSED DRAIN"
+        },
+        {
+          "kode": "DG",
+          "desc": "DEFROST GAS"
+        },
+        {
+          "kode": "DH",
+          "desc": "OPEN DRAIN"
+        },
+        {
+          "kode": "DO",
+          "desc": "DIESEL OIL"
+        },
+        {
+          "kode": "DP",
+          "desc": "DRY POWDER"
+        },
+        {
+          "kode": "DT",
+          "desc": "DIESEL TREATED"
+        },
+        {
+          "kode": "DU",
+          "desc": "DIESEL UNTREATED"
+        },
+        {
+          "kode": "DW",
+          "desc": "DRINKINGWATER"
+        },
+        {
+          "kode": "EV",
+          "desc": "EMERGENCY CARGO VENT"
+        },
+        {
+          "kode": "EW",
+          "desc": "SEA WATER RETURN"
+        },
+        {
+          "kode": "FA",
+          "desc": "FORMIC ACID"
+        },
+        {
+          "kode": "FC",
+          "desc": "COLD AND DRY HP FLARE"
+        },
+        {
+          "kode": "FD",
+          "desc": "COLD AND DRY LP FLARE"
+        },
+        {
+          "kode": "FG",
+          "desc": "FUEL GAS"
+        },
+        {
+          "kode": "FH",
+          "desc": "WARM AND WET HP FLARE"
+        },
+        {
+          "kode": "FJ",
+          "desc": "WARM AND WET LP FLARE"
+        },
+        {
+          "kode": "FL",
+          "desc": "FOAMING LIQUID"
+        },
+        {
+          "kode": "FS",
+          "desc": "COLD AND DRY LP FLARE"
+        },
+        {
+          "kode": "FW",
+          "desc": "FIREWATER"
+        },
+        {
+          "kode": "FY",
+          "desc": "FLUSHING OIL"
+        },
+        {
+          "kode": "GA",
+          "desc": "ACID GAS"
+        },
+        {
+          "kode": "GE",
+          "desc": "CHILLED WATER"
+        },
+        {
+          "kode": "GY",
+          "desc": "GLYCOL (MEG)"
+        },
+        {
+          "kode": "HA",
+          "desc": "HYDROCHLORIC ACID"
+        },
+        {
+          "kode": "HL",
+          "desc": "PROCESS CONDENSATE"
+        },
+        {
+          "kode": "HO",
+          "desc": "HOTOIL"
+        },
+        {
+          "kode": "HR",
+          "desc": "HYDROGEN"
+        },
+        {
+          "kode": "HS",
+          "desc": "HPSTEAM"
+        },
+        {
+          "kode": "IA",
+          "desc": "INSTRUMENTATION AIR"
+        },
+        {
+          "kode": "IB",
+          "desc": "INERT BLANKET HEADER"
+        },
+        {
+          "kode": "IP",
+          "desc": "INERT GAS"
+        },
+        {
+          "kode": "IW",
+          "desc": "DESALINATED WATER"
+        },
+        {
+          "kode": "JZ",
+          "desc": "COOLING WATER RETURN"
+        },
+        {
+          "kode": "LB",
+          "desc": "LIQUID BUTANE"
+        },
+        {
+          "kode": "LC",
+          "desc": "LP STEAM COND."
+        },
+        {
+          "kode": "LE",
+          "desc": "LIQUID ETHANE"
+        },
+        {
+          "kode": "LG",
+          "desc": "LOW PRESSURE GAS"
+        },
+        {
+          "kode": "LN",
+          "desc": "LIQUEFIED NATURAL GAS"
+        },
+        {
+          "kode": "LO",
+          "desc": "LUBE OIL"
+        },
+        {
+          "kode": "LP",
+          "desc": "LIQUID PROPANE"
+        },
+        {
+          "kode": "LS",
+          "desc": "LP STEAM"
+        },
+        {
+          "kode": "MC",
+          "desc": "MP STEAM COND."
+        },
+        {
+          "kode": "ML",
+          "desc": "METHANOL"
+        },
+        {
+          "kode": "MS",
+          "desc": "MP STEAM"
+        },
+        {
+          "kode": "NB",
+          "desc": "NON-OXIDIZING BIOCIDE"
+        },
+        {
+          "kode": "NG",
+          "desc": "NATURAL GAS"
+        },
+        {
+          "kode": "NL",
+          "desc": "NATURAL GAS LIQUIDS"
+        },
+        {
+          "kode": "NV",
+          "desc": "NORMAL CARGO VENT"
+        },
+        {
+          "kode": "NW",
+          "desc": "DEMINERALISED WATER"
+        },
+        {
+          "kode": "OC",
+          "desc": "OIL CLOSED DRAIN"
+        },
+        {
+          "kode": "OD",
+          "desc": "NON-HAZARDOUS OPEN DRAIN"
+        },
+        {
+          "kode": "OH",
+          "desc": "HAZARDOUS HYDROCARBON OPEN DRAI"
+        },
+        {
+          "kode": "OR",
+          "desc": "O2/CL2 reducer"
+        },
+        {
+          "kode": "OW",
+          "desc": "OILY WATER"
+        },
+        {
+          "kode": "OX",
+          "desc": "OXYGEN"
+        },
+        {
+          "kode": "PA",
+          "desc": "PROCESS AIR"
+        },
+        {
+          "kode": "PC",
+          "desc": "PHOSPHORIC ACID (75%)"
+        },
+        {
+          "kode": "PE",
+          "desc": "POLYELECTROLYTE"
+        },
+        {
+          "kode": "PG",
+          "desc": "PURGE GAS"
+        },
+        {
+          "kode": "PL",
+          "desc": "LIQUEFIED PETROLEUM GAS"
+        },
+        {
+          "kode": "PW",
+          "desc": "PRODUCED WATER"
+        },
+        {
+          "kode": "SC",
+          "desc": "SODIUM CARBONATE (FOR MEG)"
+        },
+        {
+          "kode": "SD",
+          "desc": "SOUDING SYSTEM"
+        },
+        {
+          "kode": "SE",
+          "desc": "SEAL GAS"
+        },
+        {
+          "kode": "SG",
+          "desc": "SLUDGES"
+        },
+        {
+          "kode": "SI",
+          "desc": "SCALE INHIBITOR"
+        },
+        {
+          "kode": "SO",
+          "desc": "SLOP OIL"
+        },
+        {
+          "kode": "SP",
+          "desc": "SODIUM HYPOCHLORITE"
+        },
+        {
+          "kode": "QW",
+          "desc": "SEA WATER SUPPLY"
+        },
+        {
+          "kode": "TW",
+          "desc": "TREATED WATER"
+        },
+        {
+          "kode": "UA",
+          "desc": "UTILITIES AIR"
+        },
+        {
+          "kode": "UH",
+          "desc": "HIGH PURITY NRROGEN"
+        },
+        {
+          "kode": "UN",
+          "desc": "UTILITIES NITROGEN"
+        },
+        {
+          "kode": "US",
+          "desc": "UREA"
+        },
+        {
+          "kode": "UW",
+          "desc": "UTILITY WATER"
+        },
+        {
+          "kode": "VA",
+          "desc": "ATM"
+        },
+        {
+          "kode": "VE",
+          "desc": "DRY EMERGENCY CARGO VENT"
+        },
+        {
+          "kode": "VN",
+          "desc": "DRY OPERATIONAL CARGO VENT"
+        },
+        {
+          "kode": "VT",
+          "desc": "VESSEL TRIM"
+        },
+        {
+          "kode": "VW",
+          "desc": "WET EMERGENCY CARGO VENT"
+        },
+        {
+          "kode": "WI",
+          "desc": "WAX INHIBITOR"
+        },
+        {
+          "kode": "WR",
+          "desc": "WARM MR"
+        },
+        {
+          "kode": "WS",
+          "desc": "WASTE SPRAY SYSTEM"
+        },
+        {
+          "kode": "XW",
+          "desc": "PROCESS WATER"
+        },
+        {
+          "kode": "YW",
+          "desc": "WAST WATER"
+        }
+      ]
+    }
+  ],
+  "combination": {
+    "rowAttr": "disiplin",
+    "colAttr": "area",
+    "groupBy": "grup",
+    "mode": "matrix",
+    "excluded": [],
+    "mdb": "/MDB-ZRF"
+  },
+  "templates": {
+    "dbName": "{Disiplin.team.kode}/DESI-{Disiplin.kode}-{Area.kode}{Area.fungsi.kode}",
+    "dbDesc": "DB for {Disiplin.desc} - {Area.desc}",
+    "dbNo": "10000 + {Disiplin.urutan} * 100 + {Area.slot}",
+    "mdbPos": "{Disiplin.mdbMulai} + {INDEX} - 1",
+    "site": "/{Disiplin.kode}-{Area.kode}{Area.fungsi.kode}",
+    "sepDiscipline": "/----{Disiplin.desc|upper}----",
+    "sepGroup": "/{Disiplin.kode}----{Grup.kode}----",
+    "teamsFolder": "00-TEAMS",
+    "teamsFile": "{PROJECT.filePrefix}00-TEAMS-ADMIN.mac",
+    "discFolder": "{Disiplin.urutan|pad:2}-{Disiplin.kode}-{Disiplin.team.kode}",
+    "b1File": "{PROJECT.filePrefix}{Disiplin.urutan|pad:2}-{Disiplin.kode}-B1-CREATE-DB-MDB-ADMIN.mac",
+    "b2File": "{PROJECT.filePrefix}{Disiplin.urutan|pad:2}-{Disiplin.kode}-B2-SITES-DESIGN.mac",
+    "b3File": "{PROJECT.filePrefix}{Disiplin.urutan|pad:2}-{Disiplin.kode}-B3-ZONES-DESIGN.mac",
+    "refFolder": "90-REFERENCE",
+    "refFile": "{PROJECT.filePrefix}90-REF-MDB-ADMIN.mac",
+    "fixupFolder": "99-FIXUP",
+    "fixupFile": "{PROJECT.filePrefix}99-MDB-REORDER-ADMIN.mac",
+    "registerFile": "{PROJECT.code}-E3D-Register.xlsx"
+  },
+  "zoneRules": [
+    {
+      "id": "pipe-fluid",
+      "when": [
+        {
+          "token": "Disiplin.kode",
+          "op": "eq",
+          "value": "L"
+        },
+        {
+          "token": "Area.fungsi.kode",
+          "op": "ne",
+          "value": "X"
+        }
+      ],
+      "forEach": "fluid",
+      "patterns": [
+        "{SITE}-PIPE-{Fluid.kode}"
+      ],
+      "source": "doc 3.9 B"
+    },
+    {
+      "id": "equi",
+      "when": [
+        {
+          "token": "Disiplin.kode",
+          "op": "eq",
+          "value": "R"
+        },
+        {
+          "token": "Area.fungsi.kode",
+          "op": "ne",
+          "value": "X"
+        }
+      ],
+      "patterns": [
+        "{SITE}-EQUI",
+        "{SITE}-NIEQP"
+      ],
+      "source": "doc 3.9 D"
+    },
+    {
+      "id": "handling-safety",
+      "when": [
+        {
+          "token": "Disiplin.kode",
+          "op": "in",
+          "value": [
+            "M",
+            "S"
+          ]
+        },
+        {
+          "token": "Area.fungsi.kode",
+          "op": "ne",
+          "value": "X"
+        }
+      ],
+      "patterns": [
+        "{SITE}-EQUI",
+        "{SITE}-NIEQP-TRAN",
+        "{SITE}-NIEQP-LONG"
+      ],
+      "source": "doc 3.9 E/F"
+    },
+    {
+      "id": "arch",
+      "when": [
+        {
+          "token": "Disiplin.kode",
+          "op": "eq",
+          "value": "A"
+        },
+        {
+          "token": "Area.fungsi.kode",
+          "op": "ne",
+          "value": "X"
+        }
+      ],
+      "patterns": [
+        "{SITE}-WALL"
+      ],
+      "source": "doc 3.9 G"
+    },
+    {
+      "id": "hvac",
+      "when": [
+        {
+          "token": "Disiplin.kode",
+          "op": "eq",
+          "value": "H"
+        },
+        {
+          "token": "Area.fungsi.kode",
+          "op": "ne",
+          "value": "X"
+        }
+      ],
+      "patterns": [
+        "{SITE}-EQUI",
+        "{SITE}-NIEQP",
+        "{SITE}-DUCT"
+      ],
+      "source": "doc 3.9 H"
+    },
+    {
+      "id": "dummy",
+      "when": [
+        {
+          "token": "Area.fungsi.kode",
+          "op": "eq",
+          "value": "X"
+        }
+      ],
+      "patterns": [
+        "{SITE}-STRU",
+        "{SITE}-EQUI"
+      ],
+      "source": "project addition 2026-10-21; see OPEN-ITEMS OI-01"
+    }
+  ],
+  "referenceDbs": [
+    {
+      "db": "MASTER/STLCATA",
+      "pos": 251,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "MASTER/HVACCATA",
+      "pos": 252,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "MASTER/PADD",
+      "pos": 253,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "MASTER/CABLECATA",
+      "pos": 254,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "MASTER/CABLEPROP",
+      "pos": 255,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "MASTER/VANUPDATE-IC",
+      "pos": 256,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "MASTER/SLHCATA",
+      "pos": 257,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "MASTER/SLHDATA",
+      "pos": 258,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "MASTER/STL_PROFILE_CATA",
+      "pos": 259,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "MASTER/STL_PROFILE_SPECS",
+      "pos": 260,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "ADMIN/SP-MASTER-PIPE",
+      "pos": 261,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "SAIMAS/UDA_ALL",
+      "pos": null,
+      "active": false,
+      "note": "SMA pending"
+    },
+    {
+      "db": "SAIMAS/CATA_PIP_GEOMETRY",
+      "pos": null,
+      "active": false,
+      "note": "SMA pending"
+    },
+    {
+      "db": "SAIMAS/WEI_ALL",
+      "pos": null,
+      "active": false,
+      "note": "SMA pending"
+    },
+    {
+      "db": "SAIMAS/CATA-PIP-SAI",
+      "pos": 262,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "SAIMAS/WEIGHT-PIP-SAI",
+      "pos": 263,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "EQP/DESI-R-P1D",
+      "pos": 264,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "EQP/DESI-R-P2D",
+      "pos": 265,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "EQP/DESI-R-P3D",
+      "pos": 266,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "EQP/DESI-R-P4D",
+      "pos": 267,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "EQP/DESI-R-P5D",
+      "pos": 268,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "EQP/DESI-R-P6D",
+      "pos": 269,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "EQP/DESI-R-P7D",
+      "pos": 270,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "EQP/DESI-R-P8D",
+      "pos": 271,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "EQP/DESI-R-P9D",
+      "pos": 272,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "EQP/DESI-R-P10D",
+      "pos": 273,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "EQP/DESI-R-FLD",
+      "pos": 274,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "EQP/DESI-R-LQD",
+      "pos": 275,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "EQP/DESI-R-TUD",
+      "pos": 276,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "EQP/DESI-R-HUD",
+      "pos": 277,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "EQP/DESI-R-R1D",
+      "pos": 278,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "EQP/DESI-R-R2D",
+      "pos": 279,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "EQP/DESI-R-R3D",
+      "pos": 280,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "EQP/DESI-R-R4D",
+      "pos": 281,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "EQP/DESI-R-R5D",
+      "pos": 282,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "EQP/DESI-R-R6D",
+      "pos": 283,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "EQP/DESI-R-R7D",
+      "pos": 284,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "EQP/DESI-R-S1D",
+      "pos": 285,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "EQP/DESI-R-S2D",
+      "pos": 286,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "EQP/DESI-R-S3D",
+      "pos": 287,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "EQP/DESI-R-S4D",
+      "pos": 288,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "EQP/DESI-R-S5D",
+      "pos": 289,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "EQP/DESI-R-S6D",
+      "pos": 290,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "EQP/DESI-R-S7D",
+      "pos": 291,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "EQP/DESI-R-S8D",
+      "pos": 292,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "EQP/DESI-R-S9D",
+      "pos": 293,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "EQP/DESI-R-S10D",
+      "pos": 294,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "EQP/DESI-R-YFD",
+      "pos": 295,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "EQP/DESI-R-YYD",
+      "pos": 296,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "PIP/DESI-L-P1D",
+      "pos": 297,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "PIP/DESI-L-P2D",
+      "pos": 298,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "PIP/DESI-L-P3D",
+      "pos": 299,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "PIP/DESI-L-P4D",
+      "pos": 300,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "PIP/DESI-L-P5D",
+      "pos": 301,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "PIP/DESI-L-P6D",
+      "pos": 302,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "PIP/DESI-L-P7D",
+      "pos": 303,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "PIP/DESI-L-P8D",
+      "pos": 304,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "PIP/DESI-L-P9D",
+      "pos": 305,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "PIP/DESI-L-P10D",
+      "pos": 306,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "PIP/DESI-L-FLD",
+      "pos": 307,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "PIP/DESI-L-LQD",
+      "pos": 308,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "PIP/DESI-L-TUD",
+      "pos": 309,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "PIP/DESI-L-HUD",
+      "pos": 310,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "PIP/DESI-L-R1D",
+      "pos": 311,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "PIP/DESI-L-R2D",
+      "pos": 312,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "PIP/DESI-L-R3D",
+      "pos": 313,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "PIP/DESI-L-R4D",
+      "pos": 314,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "PIP/DESI-L-R5D",
+      "pos": 315,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "PIP/DESI-L-R6D",
+      "pos": 316,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "PIP/DESI-L-R7D",
+      "pos": 317,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "PIP/DESI-L-S1D",
+      "pos": 318,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "PIP/DESI-L-S2D",
+      "pos": 319,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "PIP/DESI-L-S3D",
+      "pos": 320,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "PIP/DESI-L-S4D",
+      "pos": 321,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "PIP/DESI-L-S5D",
+      "pos": 322,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "PIP/DESI-L-S6D",
+      "pos": 323,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "PIP/DESI-L-S7D",
+      "pos": 324,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "PIP/DESI-L-S8D",
+      "pos": 325,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "PIP/DESI-L-S9D",
+      "pos": 326,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "PIP/DESI-L-S10D",
+      "pos": 327,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "PIP/DESI-L-YFD",
+      "pos": 328,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "PIP/DESI-L-YYD",
+      "pos": 329,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-C-P1D",
+      "pos": 330,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-C-P2D",
+      "pos": 331,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-C-P3D",
+      "pos": 332,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-C-P4D",
+      "pos": 333,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-C-P5D",
+      "pos": 334,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-C-P6D",
+      "pos": 335,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-C-P7D",
+      "pos": 336,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-V-P7D",
+      "pos": 337,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-C-P8D",
+      "pos": 338,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-V-P8D",
+      "pos": 339,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-C-P9D",
+      "pos": 340,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-C-P10D",
+      "pos": 341,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-C-FLD",
+      "pos": 342,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-C-LQD",
+      "pos": 343,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-V-LQD",
+      "pos": 344,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-C-TUD",
+      "pos": 345,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-V-TUD",
+      "pos": 346,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-C-HUD",
+      "pos": 347,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-V-HUD",
+      "pos": 348,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-C-R1D",
+      "pos": 349,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-C-R2D",
+      "pos": 350,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-C-R3D",
+      "pos": 351,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-C-R4D",
+      "pos": 352,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-C-R5D",
+      "pos": 353,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-C-R6D",
+      "pos": 354,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-C-R7D",
+      "pos": 355,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-C-S1D",
+      "pos": 356,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-V-S1D",
+      "pos": 357,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-C-S2D",
+      "pos": 358,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-C-S3D",
+      "pos": 359,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-C-S4D",
+      "pos": 360,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-C-S5D",
+      "pos": 361,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-V-S5D",
+      "pos": 362,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-C-S6D",
+      "pos": 363,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-C-S7D",
+      "pos": 364,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-V-S7D",
+      "pos": 365,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-C-S8D",
+      "pos": 366,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-V-S8D",
+      "pos": 367,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-C-S9D",
+      "pos": 368,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-C-S10D",
+      "pos": 369,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-C-YFD",
+      "pos": 370,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-C-YYD",
+      "pos": 371,
+      "active": true,
+      "note": ""
+    },
+    {
+      "db": "STR/DESI-V-YYD",
+      "pos": 372,
+      "active": true,
+      "note": ""
+    }
+  ],
+  "output": {
+    "includeReadme": true,
+    "includeRegister": true,
+    "includeConfig": true,
+    "includeReference": true,
+    "includeFixup": true,
+    "includeExistingTeamsBlock": true,
+    "split": "perDiscipline"
+  }
+}

@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Template — E3D Setup Generator</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:#00658A}a:hover{color:#004C69}
+</style>
+</helmet>
+<div style="width: 100%; min-height: 1240px; box-sizing: border-box; background: #F4F7F9; color: #191C1E; font-family: 'Segoe UI', Roboto, system-ui, sans-serif; font-size: 14px; line-height: 1.45; display: flex; flex-direction: column">
+
+<header style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 24px; background: #FFFFFF; border-bottom: 1px solid #DCE3E8">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 20px">
+<div style="display: flex; align-items: center; gap: 10px">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00658A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"></path><path d="M12 12l8-4.5"></path><path d="M12 12v9"></path><path d="M12 12L4 7.5"></path></svg>
+<span style="font-size: 17px; font-weight: 600">E3D Setup Generator</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px">
+<label for="pcode2" style="font-size: 12px; color: #41484D">Kode project</label>
+<input id="pcode2" value="ZRF" style="width: 72px; height: 36px; box-sizing: border-box; padding: 0 10px; border: 1px solid #71787E; border-radius: 6px; font: inherit; font-family: Consolas, 'Cascadia Mono', monospace; background: #FFFFFF; color: #191C1E">
+</div>
+<div style="display: flex; align-items: center; gap: 8px">
+<label for="pmdb2" style="font-size: 12px; color: #41484D">MDB</label>
+<input id="pmdb2" value="/MDB-ZRF" style="width: 128px; height: 36px; box-sizing: border-box; padding: 0 10px; border: 1px solid #71787E; border-radius: 6px; font: inherit; font-family: Consolas, 'Cascadia Mono', monospace; background: #FFFFFF; color: #191C1E">
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<button type="button" style="height: 40px; padding: 0 16px; border: 1px solid #71787E; border-radius: 20px; background: #FFFFFF; color: #00658A; font: inherit; font-weight: 600; cursor: pointer">Import JSON</button>
+<button type="button" style="height: 40px; padding: 0 16px; border: 1px solid #71787E; border-radius: 20px; background: #FFFFFF; color: #00658A; font: inherit; font-weight: 600; cursor: pointer">Export JSON</button>
+<button type="button" style="height: 40px; padding: 0 20px; border: none; border-radius: 20px; background: {{accent}}; color: #FFFFFF; font: inherit; font-weight: 600; cursor: pointer">Generate ZIP</button>
+</div>
+</header>
+
+<div style="display: flex; flex-wrap: wrap; flex: 1 1 auto; align-items: stretch">
+
+<nav aria-label="Langkah" style="flex: 1 1 200px; max-width: 100%; box-sizing: border-box; padding: 20px 12px; background: #FFFFFF; border-right: 1px solid #DCE3E8; display: flex; flex-direction: column; gap: 4px">
+<a href="Project.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 20px; color: #41484D; text-decoration: none"><span style="width: 22px; height: 22px; border-radius: 11px; background: #E3F4E8; color: #1B6B3A; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center">✓</span>Project</a>
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 20px; color: #41484D; text-decoration: none"><span style="width: 22px; height: 22px; border-radius: 11px; background: #E3F4E8; color: #1B6B3A; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center">✓</span>Attribute</a>
+<a href="Relasi.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 20px; color: #41484D; text-decoration: none"><span style="width: 22px; height: 22px; border-radius: 11px; background: #E3F4E8; color: #1B6B3A; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center">✓</span>Relasi &amp; kombinasi</a>
+<a href="Template.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 20px; background: #CBE6F5; color: #003549; font-weight: 600; text-decoration: none"><span style="width: 22px; height: 22px; border-radius: 11px; background: #00658A; color: #FFFFFF; font-size: 12px; display: flex; align-items: center; justify-content: center">4</span>Template</a>
+<a href="Preview.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 20px; color: #41484D; text-decoration: none"><span style="width: 22px; height: 22px; border-radius: 11px; border: 1px solid #71787E; font-size: 12px; box-sizing: border-box; display: flex; align-items: center; justify-content: center">5</span>Preview &amp; validasi</a>
+<a href="Generate.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 20px; color: #41484D; text-decoration: none"><span style="width: 22px; height: 22px; border-radius: 11px; border: 1px solid #71787E; font-size: 12px; box-sizing: border-box; display: flex; align-items: center; justify-content: center">6</span>Generate</a>
+</nav>
+
+<main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 24px; display: flex; flex-direction: column; gap: 20px">
+<div>
+<h1 style="margin: 0; font-size: 24px; font-weight: 600">Template konvensi</h1>
+<p style="margin: 4px 0 0; color: #41484D">Susun pola dari token attribute dan teks bebas. Contoh hasil dan validasi aturan E3D diperbarui langsung.</p>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
+
+<section aria-label="Token" style="flex: 1 1 260px; max-width: 100%; box-sizing: border-box; background: #FFFFFF; border: 1px solid #DCE3E8; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<label for="tsearch" style="font-size: 12px; color: #41484D">Cari token</label>
+<input id="tsearch" placeholder="mis. kode, slot" style="height: 36px; box-sizing: border-box; padding: 0 10px; border: 1px solid #71787E; border-radius: 6px; font: inherit; background: #FFFFFF; color: #191C1E">
+</div>
+<div style="font-size: 12px; color: #41484D">Klik atau seret ke pola.</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div style="font-size: 12px; font-weight: 600; color: #41484D">TEKS</div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px"><button type="button" style="height: 28px; padding: 0 10px; border: 1px dashed #71787E; border-radius: 6px; background: #FFFFFF; color: #41484D; font-family: Consolas, 'Cascadia Mono', monospace; font-size: 13px; cursor: pointer">"teks bebas"</button></div>
+</div>
+<sc-for list="{{groups}}" as="g" hint-placeholder-count="8">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div style="font-size: 12px; font-weight: 600; color: #41484D">{{g.name}}</div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{g.tokens}}" as="t" hint-placeholder-count="3">
+<button type="button" style="height: 28px; padding: 0 10px; border: none; border-radius: 6px; background: #CBE6F5; color: #003549; font-family: Consolas, 'Cascadia Mono', monospace; font-size: 13px; cursor: pointer">{{t}}</button>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</section>
+
+<div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<sc-for list="{{cards}}" as="c" hint-placeholder-count="6">
+<section style="background: #FFFFFF; border: 1px solid #DCE3E8; border-radius: 12px; padding: 18px 20px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 12px">
+<div>
+<h2 style="margin: 0; font-size: 16px; font-weight: 600">{{c.title}}</h2>
+<div style="font-size: 12px; color: #41484D">{{c.scope}}</div>
+</div>
+<button type="button" style="height: 32px; padding: 0 12px; border: 1px solid #C0C8CD; border-radius: 16px; background: #FFFFFF; color: #00658A; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">{{c.action}}</button>
+</div>
+<sc-for list="{{c.lines}}" as="l" hint-placeholder-count="1">
+<div style="display: flex; flex-direction: column; gap: 8px; padding: 12px; background: #F7F9FA; border: 1px solid #E5EAED; border-radius: 8px">
+<sc-if value="{{l.hasCond}}" hint-placeholder-val="{{false}}">
+<div style="font-size: 12px; color: #41484D">Jika <span style="font-family: Consolas, 'Cascadia Mono', monospace; color: #191C1E; background: #EEF2F4; padding: 1px 6px; border-radius: 4px">{{l.cond}}</span></div>
+</sc-if>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px">
+<sc-for list="{{l.parts}}" as="p" hint-placeholder-count="5">
+<span style="{{p.style}}">{{p.text}}</span>
+</sc-for>
+<span style="height: 28px; width: 28px; box-sizing: border-box; border: 1px dashed #A0A8AD; border-radius: 6px; color: #6F777C; display: inline-flex; align-items: center; justify-content: center" aria-hidden="true">+</span>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px">
+<span style="font-size: 12px; color: #41484D">Contoh</span>
+<span style="font-family: Consolas, 'Cascadia Mono', monospace; font-size: 15px; font-weight: 600; color: #191C1E">{{l.sample}}</span>
+<span style="font-size: 12px; color: #41484D">{{l.meta}}</span>
+</div>
+</div>
+</sc-for>
+<div style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{c.checks}}" as="k" hint-placeholder-count="2">
+<span style="{{k.style}}">{{k.text}}</span>
+</sc-for>
+</div>
+<sc-if value="{{c.hasWarn}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border-radius: 8px; background: #FFF1D6; color: #4A3200; font-size: 13px">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 1px"><path d="M12 3l9.5 17h-19z"></path><path d="M12 10v4M12 17v.5"></path></svg>
+<span>{{c.warn}}</span>
+</div>
+</sc-if>
+</section>
+</sc-for>
+</div>
+
+</div>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#00658A","options":["#00658A","#2E5BA8","#3F6B2A"]},"$preview":{"width":1440,"height":1240}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const T = 'height: 28px; padding: 0 10px; border-radius: 6px; background: #CBE6F5; color: #003549; font-family: Consolas, \'Cascadia Mono\', monospace; font-size: 13px; display: inline-flex; align-items: center; white-space: pre;';
+    const L = 'height: 28px; padding: 0 8px; border-radius: 6px; border: 1px solid #C0C8CD; background: #FFFFFF; color: #191C1E; font-family: Consolas, \'Cascadia Mono\', monospace; font-size: 13px; display: inline-flex; align-items: center; box-sizing: border-box; white-space: pre;';
+    const tk = (text) => ({ text, style: T });
+    const lt = (text) => ({ text, style: L });
+    const OK = 'display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 14px; background: #E3F4E8; color: #14522C; font-size: 12px;';
+    const INFO = 'display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 14px; background: #EEF2F4; color: #41484D; font-size: 12px;';
+    const ok = (text) => ({ text: '✓ ' + text, style: OK });
+    const info = (text) => ({ text, style: INFO });
+    const line = (parts, sample, meta, cond) => ({ parts, sample, meta: meta || '', cond: cond || '', hasCond: !!cond });
+    const groups = [
+      { name: 'PROJECT', tokens: ['PROJECT.kode'] },
+      { name: 'DISIPLIN', tokens: ['Disiplin.kode', 'Disiplin.desc', 'Disiplin.urutan', 'Disiplin.team.kode', 'Disiplin.mdbMulai'] },
+      { name: 'AREA', tokens: ['Area.kode', 'Area.desc', 'Area.slot', 'Area.grup.kode', 'Area.fungsi.kode'] },
+      { name: 'GRUP', tokens: ['Grup.kode', 'Grup.slotDari'] },
+      { name: 'FUNCTION', tokens: ['Function.kode', 'Function.desc'] },
+      { name: 'FLUID', tokens: ['Fluid.kode', 'Fluid.desc'] },
+      { name: 'TEAM', tokens: ['Team.kode', 'Team.desc'] },
+      { name: 'TURUNAN', tokens: ['SITE', 'DB', 'indeks'] }
+    ];
+    const cards = [
+      {
+        title: 'Nama DB', scope: 'Setiap kombinasi Disiplin × Area', action: 'Edit pola',
+        lines: [line([tk('Disiplin.team.kode'), lt('/DESI-'), tk('Disiplin.kode'), lt('-'), tk('Area.kode'), tk('Area.fungsi.kode')], 'ZRFPIP/DESI-L-M1D', '250 hasil')],
+        checks: [ok('Format TEAM/NAMA (1.1)'), ok('250 nama unik')]
+      },
+      {
+        title: 'Deskripsi DB', scope: 'Dipakai di DESC pada CREATE DB', action: 'Edit pola',
+        lines: [line([lt('DB for '), tk('Disiplin.desc'), lt(' - '), tk('Area.desc')], 'DB for Piping - M1 Liquefaction 1', '')],
+        checks: [ok('250 terisi')]
+      },
+      {
+        title: 'Nomor DB (DBNO)', scope: 'Rumus angka dari kolom attribute', action: 'Edit rumus',
+        lines: [line([lt('10000 + '), tk('Disiplin.urutan'), lt(' × 100 + '), tk('Area.slot')], '10201', 'rentang hasil 10101–11071')],
+        checks: [ok('Dalam 1–7000 / 10000–250000 (1.3)'), ok('250 nomor unik')]
+      },
+      {
+        title: 'Posisi di MDB', scope: 'Angka n pada ADD db n', action: 'Edit rumus',
+        lines: [line([tk('Disiplin.mdbMulai'), lt(' + '), tk('indeks'), lt(' − 1')], '26', 'rentang hasil 1–250 · indeks = urutan baris Area')],
+        checks: [ok('Dalam 1–5000 (§2)'), ok('≤ 1000 current (1.7)'), ok('Tidak ada posisi ganda')]
+      },
+      {
+        title: 'Site dan separator', scope: 'Site: satu per DB · Separator: dari peran Separator', action: 'Edit pola',
+        lines: [
+          line([lt('/'), tk('Disiplin.kode'), lt('-'), tk('Area.kode'), tk('Area.fungsi.kode')], '/L-M1D', 'site'),
+          line([lt('/----'), tk('Disiplin.desc ↑'), lt('----')], '/----PIPING----', 'separator disiplin · ↑ = huruf besar'),
+          line([lt('/'), tk('Disiplin.kode'), lt('----'), tk('Grup.kode'), lt('----')], '/L----MODULES----', 'separator grup')
+        ],
+        checks: [ok('Diawali / (3.5)'), ok('Huruf besar (3.5)'), info('Separator = praktik project, bukan fitur E3D (5.4)')]
+      },
+      {
+        title: 'Aturan zone', scope: 'Dievaluasi per site, berurutan', action: '+ Aturan',
+        lines: [
+          line([tk('SITE'), lt('-PIPE-'), tk('Fluid.kode')], '/L-M1D-PIPE-AD', '× setiap Fluid · 107 zone per site', 'Disiplin.kode = L  dan  Area.fungsi.kode ≠ X'),
+          line([tk('SITE'), lt('-EQUI')], '/R-M1D-EQUI', '+ /R-M1D-NIEQP (pola kedua)', 'Disiplin.kode = R  dan  Area.fungsi.kode ≠ X'),
+          line([tk('SITE'), lt('-STRU')], '/L-DUX-STRU', '1 zone per site', 'Area.fungsi.kode = X')
+        ],
+        checks: [ok('Owner ZONE = SITE (3.7)'), ok('Nama zone unik')],
+        hasWarn: true,
+        warn: 'NEW ZONE setelah navigasi ke site belum dites di ZRF (§9). File zone diberi komentar peringatan di baris pertama.'
+      }
+    ].map((c) => ({ hasWarn: false, warn: '', ...c }));
+    return { accent: this.props.accent ?? '#00658A', groups, cards };
+  }
+}
+</script>
+</body>
+</html>
