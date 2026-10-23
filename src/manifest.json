@@ -1,6 +1,6 @@
 {
-  "engine": ["src/engine/core.js", "src/engine/model.js", "src/engine/generate.js", "src/engine/validate.js", "src/engine/schema.js"],
-  "io": [],
+  "engine": ["src/engine/core.js", "src/engine/model.js", "src/engine/generate.js", "src/engine/validate.js", "src/engine/schema.js", "src/engine/register.js", "src/engine/tables.js"],
+  "io": ["src/io/zip.js", "src/io/xlsx.js"],
   "ui": [],
   "css": [],
   "toolkit": {

@@ -200,7 +200,7 @@ var makeSuite = function (E, preset, fixtures) {
       const reg = book.find(s => s.name === 'DB Register');
       ok(reg && reg.rows.length === 251, 'DB Register rows');
       eq(reg.rows[0].slice(0, 3), ['No', 'Row', 'Row code'], 'header');
-      eq(String(reg.rows[26][7]), 'ZRFPIP/DESI-L-M1D', 'first Piping DB');
+      eq(String(reg.rows[26][6]), 'ZRFPIP/DESI-L-M1D', 'first Piping DB');
       const zip = await E.zip.write([{ path: 'a/b.txt', data: 'hello\r\n' }, { path: 'c.bin', data: new Uint8Array([1, 2, 3]) }]);
       const entries = await E.zip.read(zip);
       eq(entries.map(e => e.path), ['a/b.txt', 'c.bin'], 'zip entries');
