@@ -1,7 +1,8 @@
 # Acceptance tests
 
 Automate A1–A4 and N1–N16 in the headless engine test suite (Node, or `tests/run-tests.html` that runs
-in the browser and prints PASS/FAIL). U1–U12 are manual UI checks.
+in the browser and prints PASS/FAIL). U1–U12 are manual UI checks; `tests/ui-smoke.js` automates
+U1, U3–U5, U7, U10 (ZIP content), U12 and N16 through the UI when Playwright is available.
 
 ## A. Preset ZRF
 
@@ -39,7 +40,7 @@ in the browser and prints PASS/FAIL). U1–U12 are manual UI checks.
 | Id | Check |
 |---|---|
 | U1 | Opens from `file://` with the network disabled (DevTools offline); no console errors, no requests |
-| U2 | Screen 1: Preset → confirm dialog when data exists; Import config.json shows summary before applying |
+| U2 | Screen 1: Kosong → confirm dialog when data exists; Import config.json shows summary before applying |
 | U3 | Screen 2: add attribute, add `ref` column, paste 10 rows from Excel; invalid cell shows red outline + message |
 | U4 | Screen 2: deleting an attribute that is referenced is blocked and lists the references |
 | U5 | Screen 3: unticking a cell updates counts, order table, and preview immediately |

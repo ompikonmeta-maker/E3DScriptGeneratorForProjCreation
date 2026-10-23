@@ -3,7 +3,29 @@
 Paket ini berisi semua yang dibutuhkan Claude Code untuk membangun tool HTML offline yang menghasilkan
 macro setup AVEVA E3D (Team → DB → MDB → Site → Zone) dari konvensi penamaan yang bebas diatur.
 
-## Isi
+## Pakai tool
+
+1. Buka `dist/e3d-setup-generator.html` (klik dua kali) di Microsoft Edge atau Google Chrome. Tanpa
+   instalasi, tanpa hak admin, tanpa internet. File boleh disalin ke folder lokal, USB, atau share.
+2. Layar 1: **Kosong** untuk konvensi baru, atau **Import config.json** (mis. `presets/zrf.config.json`).
+   Opsional: **Import Export Config (.xlsx)** dari project tujuan untuk cek bentrok nama dan DBNO.
+3. Layar 2–4: atur attribute, kombinasi dan template. Validasi berjalan langsung; layar 5 menampilkan
+   semua temuan (klik untuk lompat ke sel terkait).
+4. Layar 6: periksa isi file, lalu **Unduh ZIP** (macro .mac, README, register .xlsx, config.json).
+
+Pekerjaan tersimpan otomatis di browser; `Export JSON` adalah simpanan permanen. Ctrl+Z / Ctrl+Y untuk
+batal/ulang.
+
+Untuk pengembang (butuh Python 3 dan Node):
+
+```
+python tools/build.py        # bangun ulang dist/ dari src/
+node tests/run.js            # uji engine (A1-A5, N1-N16) + banding byte dengan engine referensi Python
+```
+
+`tests/run-tests.html` menjalankan uji engine yang sama langsung di browser.
+
+## Isi paket handoff
 
 | Path | Isi |
 |---|---|

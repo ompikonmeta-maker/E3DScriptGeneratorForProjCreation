@@ -171,8 +171,9 @@ left step navigation (1–6, done = ✓, current highlighted), Indonesian labels
 `docs/UI.md`. Each screen is reachable at any time; Generate stays disabled while errors exist.
 
 ### Screen 1 — Project
-- **Start**: radio cards `Preset ZRF`, `Kosong`, `Import config.json`, `Import Export Config (.xlsx)`.
-  Choosing Preset/Kosong when data exists asks for confirmation (replaces current config).
+- **Start**: cards `Kosong`, `Import config.json`, `Import Export Config (.xlsx)`. (omPik 2026-10-23: the
+  tool ships generic, without a built-in ZRF preset; open `presets/zrf.config.json` via Import config.json.)
+  Choosing Kosong when data exists asks for confirmation (replaces current config).
   `Import config.json`: file picker → schema check → migrate → summary dialog (counts) → Lanjut/Batal.
   `Import Export Config`: reads sheets `Teams` and `Databases` into `inUse` (8.2); does not change attributes.
 - **Identitas**: code, name, target version (free text with ZRF default), file prefix.

@@ -25,57 +25,58 @@ Owner: omPik (Smart3D/S3D administrator learning E3D administration). UI languag
 
 ## Current state
 
-The repo is a handoff package: specs, preset, fixtures, mockups and a Python reference engine.
-No `src/`, `dist/`, build script or JS tests exist yet — they are what you build. `prompts/first-prompt.md`
-lists the intended phases (1 engine + A1–A5/N1–N16, 2 screens 1–4, 3 screen 5, 4 screen 6, 5 imports + U1–U12).
+Built: engine (`src/engine/`), IO (`src/io/`), six screens (`src/ui/`), build script, tests.
+Deliverable `dist/e3d-setup-generator.html` and `tests/run-tests.html` are **generated and committed** —
+rebuild after every source change. Decisions by omPik (2026-10-23):
+- The tool ships **generic**: no ZRF preset card; start = Kosong / Import config.json / Import Export Config.
+  `presets/zrf.config.json` stays in the repo for tests and is opened via Import config.json.
+- UI uses the MD3 toolkit in `material-design-3-project/` (tokens CSS + dynamic color JS, seed `#00658A`),
+  but **not** `md3-components.js`: its icons need the Material Symbols web font, which is blocked offline.
+  Controls are native elements styled with MD3 tokens; icons are inline SVG (`src/ui/util.js`).
 
 ## Commands
 
 ```
-# Reference engine: prints counts + issues, compares non-comment lines with fixtures (exit 1 on mismatch/error)
+python tools/build.py                 # -> dist/e3d-setup-generator.html + tests/run-tests.html
+node tests/run.js                     # engine: A1-A5, N1-N16, X*, and byte-compare with the Python reference
+node tests/run.js N1                  # one test (prefix match on id)
+NODE_PATH=$(npm root -g) node tests/ui-smoke.js [shotDir]   # built file in headless Chromium, offline
 python tools/reference_generator.py presets/zrf.config.json --check fixtures/zrf
-
-# Write the full reference package (33 .mac files) for byte-comparison with the JS engine (acceptance A4)
-python tools/reference_generator.py presets/zrf.config.json --out build/zrf
 ```
 
-Expected on the preset: 6/6 PASS, `errors=0 warnings=5` (one §9 NEW ZONE warning + V20 for E, I, T, N).
-Node 22 is available in the cloud container, so headless JS tests can run with plain `node` (no deps).
-Mutation cases N1–N16 are applied to a copy of the preset in memory — never edit `presets/` or `fixtures/`.
+Expected on the preset: 0 errors, warnings V19 x1 + V20 x4 (E, I, T, N), info V22 x1; 33 .mac files.
+Never edit `presets/` or `fixtures/` for tests — mutation cases copy the preset in memory.
 
 ## Architecture (how the pieces fit)
 
-Pipeline, identical in Python and JS: `config.json` → **resolve** (attributes by id/name, rows by `kode`)
-→ **build_model** (cells = row attr sorted by `urutan` × col attr in row order, minus `excluded`; per cell
-render `db/desc/dbno/pos/site/zones`; per row discipline + group separators) → **validate** → **generate**
-(`{relPath: text}`). Function names in `tools/reference_generator.py` map 1:1 to SPEC §4 steps; port them,
-then add the UI on top. The engine must stay DOM-free so the same module feeds Node tests and the HTML.
+`src/manifest.json` is the single file list (load order) used by `tools/build.py` and `tests/load.js`.
+Everything is classic scripts sharing two globals: `E3D` (engine + io, no DOM) and `UI`.
 
-Key mechanics that span several docs:
-- **Tokens** `{Head.col[.col]|filter}` (regex `TOKEN_RE`): `Head` is an attribute *name* (not id),
-  `PROJECT`, `SITE` or `INDEX`; a `ref` column can be traversed (`Disiplin.team.kode`). Which heads are
-  available depends on the template (SPEC 3.2 table) — that is what V03 checks.
-- **Expressions** (`dbNo`, `mdbPos`) are rendered first, then parsed by a tiny integer parser
-  (`evaluate`). Never `eval`/`Function`; non-exact division is an error.
-- **Owning team** = text of `dbName` before `/`; it must be a `kode` in the `team`-role attribute.
-- **B2 DB clause**: ` DB <db>` only when the DB differs from the previous `NEW SITE` line in the file;
-  a separator belongs to the DB of the next cell. This is the subtle part — fixture B2 is the oracle.
-- **Zone rules** run per cell in list order; `forEach` expands over another attribute's rows.
-  A rule "targets" a row when one `when` clause uses the row attribute's head (drives V20).
-- **Output text**: ASCII only, CRLF by default, trailing EOL. Comment lines (`$*`) are free text;
-  only command lines are compared. `.prefix.mac` fixtures match only the first N command lines.
+Engine pipeline, mirroring `tools/reference_generator.py`: `E3D.compute(config)` → `index` (attributes
+by id/name, rows by `kode`) → `buildModel` (cells = row attr sorted by `urutan` × col attr in row order,
+filtered by `combination.mode`; per cell `db/desc/dbno/pos/site/zones/mdb`; separators) → `generate`
+(ordered `{path, text, module, step}`) → `validate(cfg, model, files)` (V01–V24, each issue has
+`{id, severity, ref, message, location}`). `readme`, `registerSheets`, `packageNames` build the rest.
+
+Key mechanics that span several files:
+- **Tokens** `{Head.col[.col]|filter}`: `Head` is an attribute *name*, `PROJECT`, `SITE` or `INDEX`.
+  Allowed heads per template come from `E3D.TEMPLATE_KINDS` + `contextHeads` (SPEC 3.2) — V03.
+  Rendering never throws: unresolvable tokens become `?` (data problems are reported by V01).
+- **Expressions** (`dbNo`, `mdbPos`): rendered, then `evaluate` (no eval); failures → V04.
+- **B2 DB clause**: ` DB <db>` only when the DB differs from the previous `NEW SITE` line (`siteOrder`).
+- **Output text**: comment and command lines both match the Python reference byte-for-byte (A4b).
+- **E3D facts as flags**: `E3D.FACTS.newZoneTested` / `interDbOrderProven` — flip when omPik confirms (OI-04/05).
+- **UI state** (`src/ui/app.js`): `A.mutate(fn)` = snapshot (undo) + recompute + full screen render;
+  typing in `[data-bind]` inputs = `A.touch()` (debounced recompute, then only `[data-part]` regions and
+  `[data-loc]` error marks refresh, so focus is kept). `U.locKeys(issue.location)` ↔ `data-loc` attributes
+  drive red outlines and click-to-navigate from screen 5. Autosave key `e3d-setup-generator/v1`.
 
 Domain data uses Indonesian keys — `kode`, `desc`, `urutan`, `anggota`, `existing`, `mdbMulai`, `slot`,
-`fungsi`, `grup` — keep them; they are part of the config schema and the preset.
+`fungsi`, `grup` — keep them; they are part of the config schema.
 
-## Gaps between the reference engine and the spec
-
-The Python engine covers only what the ZRF preset exercises. Implement the rest from SPEC/RULES:
-- Issue `ref`s there are fact labels (`1.3`, `sec2`, `dup`, `sec9`); the JS engine must emit V-ids
-  (V01–V24) *and* the fact ref per RULES.md §3.
-- Not implemented in Python: V01, V02, V18, V21, V22 (A2 expects one V22 info), V24, `inUse` checks
-  (V07/V08 against `inUse.dbs`), `combination.mode` `all`/`condition`, per-row `mdb` override,
-  `output.split = perStep`, README, register .xlsx, issue `location`s.
+The Python reference only covers what the ZRF preset exercises (no V-ids, inUse, `all`/`condition`
+modes, per-row MDB, `perStep`, README, register). The JS engine implements those from SPEC/RULES and
+`tests/suite.js` covers them (X2, N16, …).
 
 ## Hard constraints
 
@@ -115,5 +116,5 @@ The Python engine covers only what the ZRF preset exercises. Implement the rest 
   → imports. Commit after each phase.
 - Keep the engine pure (no DOM) so it can be tested headless.
 - If a requirement conflicts with RULES.md or is unclear, stop and ask omPik; do not guess.
-- If omPik provides his local "07_Material Design" base CSS (tokens + components, local fonts),
-  use its tokens instead of the mockup colors. Ask for the path before UI work.
+- omPik's Material Design base is `material-design-3-project/` (see Current state). Use its tokens
+  (`--md-sys-*`) for every color, type, shape and motion value; no raw hex in `src/ui/styles.css`.

@@ -24,7 +24,13 @@ at the bottom. Read them for layout, copy, spacing and colours; do not ship thei
 - Tables: header row tinted, 1 px row dividers, monospace for codes/names/numbers, horizontal scroll
   inside the card.
 
-## Tokens (from the mockups)
+## Tokens
+
+Implemented with the MD3 toolkit (`material-design-3-project/md3-tokens.css` + `md3-dynamic-color.js`,
+seed `#00658A`, style tonalSpot; success/warning containers generated from their own seeds). The table
+below is the original mockup palette the seed reproduces.
+
+### Mockup palette
 
 | Token | Value | Use |
 |---|---|---|
