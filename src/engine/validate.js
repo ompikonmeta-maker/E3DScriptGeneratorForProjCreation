@@ -205,10 +205,10 @@
 
     /* V19, V20 */
     if (model.cells.some(c => c.zones.length) && !E.FACTS.newZoneTested)
-      add('V19', 'warning', '§9', 'NEW ZONE setelah navigasi ke site belum dites (B3 tetap dibuat dengan peringatan)', { screen: 4, zoneRule: 0 });
+      add('V19', 'warning', '§9', 'NEW ZONE setelah navigasi ke site belum dites (B3 tetap dibuat dengan peringatan)', { screen: 4, field: 'zoneRules' });
     for (const dd of model.disciplines)
       if (!dd.cells.some(c => c.targeted))
-        add('V20', 'warning', '-', `Tidak ada aturan zone yang menargetkan baris ${dd.row.kode} (${dd.row.desc})`, { screen: 4, zoneRule: 0 });
+        add('V20', 'warning', '-', `Tidak ada aturan zone yang menargetkan baris ${dd.row.kode} (${dd.row.desc})`, { screen: 4, field: 'zoneRules' });
 
     /* V21, V22: in-use list */
     if (!inUse || (!(inUse.teams || []).length && !(inUse.dbs || []).length)) {

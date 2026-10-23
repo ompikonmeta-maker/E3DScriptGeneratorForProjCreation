@@ -1,8 +1,31 @@
 {
-  "engine": ["src/engine/core.js", "src/engine/model.js", "src/engine/generate.js", "src/engine/validate.js", "src/engine/schema.js", "src/engine/register.js", "src/engine/tables.js"],
-  "io": ["src/io/zip.js", "src/io/xlsx.js"],
-  "ui": [],
-  "css": [],
+  "engine": [
+    "src/engine/core.js",
+    "src/engine/model.js",
+    "src/engine/generate.js",
+    "src/engine/validate.js",
+    "src/engine/schema.js",
+    "src/engine/register.js",
+    "src/engine/tables.js"
+  ],
+  "io": [
+    "src/io/zip.js",
+    "src/io/xlsx.js"
+  ],
+  "ui": [
+    "src/ui/util.js",
+    "src/ui/app.js",
+    "src/ui/screens/project.js",
+    "src/ui/screens/attribute.js",
+    "src/ui/screens/relasi.js",
+    "src/ui/screens/template.js",
+    "src/ui/screens/preview.js",
+    "src/ui/screens/generate.js",
+    "src/ui/main.js"
+  ],
+  "css": [
+    "src/ui/styles.css"
+  ],
   "toolkit": {
     "css": "material-design-3-project/md3-tokens.css",
     "js": "material-design-3-project/md3-dynamic-color.js"
