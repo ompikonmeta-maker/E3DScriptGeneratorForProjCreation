@@ -56,6 +56,42 @@
     });
   };
 
+  // Rows from a table with an explicit mapping {columnId: sourceIndex} (import dialog).
+  E.mapTable = function (attr, body, mapping) {
+    return body.filter(r => r.some(c => String(c === undefined || c === null ? '' : c).trim() !== '')).map(r => {
+      const row = {};
+      for (const c of attr.columns || []) {
+        const j = mapping[c.id];
+        row[c.id] = E.convertValue(c, j === undefined || j === null || j < 0 ? '' : r[j]);
+      }
+      return row;
+    });
+  };
+  // Best guess mapping by header text (name or id, case-insensitive); otherwise by position.
+  E.guessMapping = function (attr, header, hasHeader) {
+    const norm = s => String(s === undefined || s === null ? '' : s).trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+    const map = {}, used = new Set();
+    (attr.columns || []).forEach((c, i) => {
+      let j = -1;
+      if (hasHeader) j = header.findIndex((h, k) => !used.has(k) && h !== '' && (norm(h) === norm(c.name) || norm(h) === norm(c.id)));
+      else if (i < header.length) j = i;
+      if (j >= 0) used.add(j);
+      map[c.id] = j;
+    });
+    // Header with unfamiliar names (e.g. AREA, DESCRIPTION): fall back to column order.
+    if (hasHeader && !used.size) (attr.columns || []).forEach((c, i) => { map[c.id] = i < header.length ? i : -1; });
+    return map;
+  };
+  // A first row is a header when at least two cells name columns of the list.
+  // ...or when a column is numeric in the data but not in the first row.
+  E.looksLikeHeader = function (attr, first, body) {
+    const norm = s => String(s === undefined || s === null ? '' : s).trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+    const names = new Set((attr.columns || []).flatMap(c => [norm(c.name), norm(c.id)]));
+    if ((first || []).filter(h => names.has(norm(h))).length >= Math.min(2, (attr.columns || []).length)) return true;
+    const isNum = v => /^\s*-?\d+(\.\d+)?\s*$/.test(String(v === undefined || v === null ? '' : v));
+    return (first || []).some((h, j) => String(h).trim() !== '' && !isNum(h) && (body || []).length > 0 && (body || []).every(r => isNum(r[j])));
+  };
+
   /* ---------- Export Config workbook -> inUse ---------- */
   const findSheet = (book, name) => book.find(s => s.name.trim().toLowerCase() === name.toLowerCase());
   const txt = v => (v === undefined || v === null ? '' : String(v).trim());

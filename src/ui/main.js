@@ -8,8 +8,8 @@
     U.initTheme();
     U.App.load();
     U.App.recompute();
-    U.renderScreen();
-    U.renderChrome();
+    U.renderAll();
+    U.maybeTour();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })(UI);

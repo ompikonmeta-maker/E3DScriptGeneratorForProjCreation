@@ -1,13 +1,16 @@
-/* App state, autosave, undo, shell (app bar + step navigation), binding and navigation. */
+/* App state, autosave, undo, shell (bar, stepper, status, side panel, footer), binding and navigation.
+   Flow: 0 Mulai -> 1 Daftar -> 2 Susunan -> 3 Nama -> 4 Cek & Unduh (docs: redesign plan). */
 (function (U) {
   'use strict';
   const E = E3D;
   const KEY = 'e3d-setup-generator/v1';
-  const STEPS = ['Project', 'Attribute', 'Relasi & kombinasi', 'Template', 'Preview & validasi', 'Generate'];
+  U.KEY = KEY;
+  U.STEPS = ['Daftar', 'Susunan', 'Nama', 'Cek & Unduh'];
+  const HINT = ['', 'Isi daftar. Seret file Excel/CSV ke tabel.', 'Seret untuk mengatur urutan dan grup.', 'Seret blok untuk menyusun nama.', 'Periksa, lalu unduh.'];
 
   const A = U.App = {
-    config: null, r: null, idx: new Map(), hist: [], fut: [], savedAt: null, storageOk: true, dirty: false,
-    ui: { screen: 1, attr: null, attrQuery: '', orderTab: null, file: null, regTab: null, regQuery: '', tplRaw: {}, issueFilter: 'all' },
+    config: null, r: null, idx: new Map(), hist: [], fut: [], savedAt: null, storageOk: true, dirty: false, hadSaved: false,
+    ui: { screen: 0, list: null, listQuery: '', name: 'site', tree: null, side: null, file: null, showFiles: false, raw: {} },
   };
   U.screens = {};
   U.act = {};
@@ -19,9 +22,13 @@
     U.store.del(KEY + '/probe');
     if (saved && saved.config && !E.checkSchema(saved.config).length) {
       A.config = E.migrate(saved.config).config;
-      Object.assign(A.ui, saved.ui || {});
+      const ui = saved.ui || {};
+      A.ui.screen = ui.screen >= 1 && ui.screen <= 4 ? ui.screen : 0;
+      for (const k of ['list', 'name', 'tree', 'side']) if (ui[k] !== undefined) A.ui[k] = ui[k];
       A.savedAt = saved.savedAt ? new Date(saved.savedAt) : null;
+      A.hadSaved = true;
     } else A.config = E.emptyConfig();
+    if (A.ui.side === null || A.ui.side === undefined) A.ui.side = window.innerWidth >= 1440;
   };
   A.recompute = function () {
     A.r = E.compute(A.config);
@@ -32,50 +39,56 @@
     }
   };
   A.errors = () => A.r.issues.filter(i => i.severity === 'error');
-  A.save = U.debounce(() => {
+  A.warnings = () => A.r.issues.filter(i => i.severity === 'warning');
+  A.saveNow = function () {
     A.savedAt = new Date();
-    A.storageOk = U.store.set(KEY, { config: A.config, ui: { screen: A.ui.screen, attr: A.ui.attr, orderTab: A.ui.orderTab }, savedAt: A.savedAt.toISOString() });
-    U.renderNavFoot();
-  }, 400);
+    const ui = { screen: A.ui.screen, list: A.ui.list, name: A.ui.name, tree: A.ui.tree, side: A.ui.side };
+    A.storageOk = U.store.set(KEY, { config: A.config, ui, savedAt: A.savedAt.toISOString() });
+  };
+  A.save = U.debounce(A.saveNow, 400);
+  // Closing or reloading the page must not lose the last edit (debounce still pending).
+  window.addEventListener('pagehide', () => { if (A.config) { A.flush(); A.saveNow(); } });
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden' && A.config) { A.flush(); A.saveNow(); } });
   A.snapshot = function () {
     A.hist.push(JSON.stringify(A.config));
     if (A.hist.length > 100) A.hist.shift();
     A.fut = [];
   };
-  // Structural change: snapshot, apply, recompute, full screen render.
   A.mutate = function (fn) {
+    A.flush();
     A.snapshot();
     fn(A.config);
     A.recompute(); A.save();
-    U.renderScreen(); U.renderChrome();
+    U.renderAll();
   };
-  // Typing: one snapshot per burst, recompute after a pause, refresh derived parts only.
   const settle = U.debounce(() => { A.dirty = false; A.recompute(); A.save(); U.refresh(); }, 300);
   A.touch = function () {
     if (!A.dirty) { A.snapshot(); A.dirty = true; }
     settle();
   };
   A.flush = function () { if (A.dirty) { A.dirty = false; A.recompute(); A.save(); } };
-  A.replace = function (config, keepUi) {
+  A.replace = function (config, screen) {
     A.snapshot();
     A.config = config;
-    if (!keepUi) Object.assign(A.ui, { attr: null, orderTab: null, file: null, regTab: null, tplRaw: {} });
+    Object.assign(A.ui, { list: null, tree: null, file: null, raw: {}, screen: screen === undefined ? A.ui.screen : screen });
     A.recompute(); A.save();
-    U.renderScreen(); U.renderChrome();
+    U.renderAll();
   };
   A.undo = function () {
     A.flush();
     if (!A.hist.length) return U.toast('Tidak ada yang bisa dibatalkan');
     A.fut.push(JSON.stringify(A.config));
     A.config = JSON.parse(A.hist.pop());
-    A.recompute(); A.save(); U.renderScreen(); U.renderChrome();
+    A.recompute(); A.save(); U.renderAll();
   };
   A.redo = function () {
     if (!A.fut.length) return;
     A.hist.push(JSON.stringify(A.config));
     A.config = JSON.parse(A.fut.pop());
-    A.recompute(); A.save(); U.renderScreen(); U.renderChrome();
+    A.recompute(); A.save(); U.renderAll();
   };
+  A.attr = id => (A.config.attributes || []).find(a => a.id === id);
+  A.attrIndex = id => (A.config.attributes || []).findIndex(a => a.id === id);
 
   /* ---------- Issue locations ---------- */
   U.locKeys = function (loc) {
@@ -98,14 +111,29 @@
     return k;
   };
   U.issuesAt = (key, sev) => (A.idx.get(key) || []).filter(i => !sev || i.severity === sev);
+  // Engine locations use the original screen numbers; map them to the new steps or the project panel.
+  const PROJECT_FIELDS = ['code', 'name', 'target', 'filePrefix', 'packageName', 'lineEnding', 'mdbs', 'dbDefaults'];
+  U.target = function (loc) {
+    const l = loc || {};
+    if (l.screen === 1) {
+      if (l.refIndex !== undefined) return { screen: 1, list: 'refs' };
+      if (l.field === 'inUse') return { screen: 4 };
+      return { panel: 'project' };
+    }
+    if (l.screen === 2) return { screen: 1, list: l.attributeId };
+    if (l.screen === 3) return { screen: 2 };
+    if (l.screen === 4) return { screen: 3 };
+    return { screen: 4 };
+  };
+  U.stepErrors = n => A.errors().filter(i => U.target(i.location).screen === n).length;
+  U.projectErrors = () => A.errors().filter(i => U.target(i.location).panel === 'project').length;
 
-  // Red outline + tooltip on every element whose data-loc has errors.
   U.markIssues = function (root) {
-    for (const el of U.$$('[data-loc]', root || U.$('#main'))) {
+    for (const el of U.$$('[data-loc]', root || document)) {
       const errs = U.issuesAt(el.dataset.loc, 'error');
       el.classList.toggle('bad', errs.length > 0);
-      if (errs.length) el.title = errs.slice(0, 5).map(i => `${i.id} (${i.ref}): ${i.message}`).join('\n');
-      else if (el.title && el.dataset.loc) el.removeAttribute('title');
+      if (errs.length) el.title = errs.slice(0, 5).map(i => `${i.message} (${i.ref})`).join('\n');
+      else if (el.dataset.loc && el.title) el.removeAttribute('title');
     }
   };
 
@@ -113,119 +141,143 @@
   U.buildShell = function () {
     document.body.innerHTML = `
       <header class="bar">
-        <div class="brand">${U.LOGO}<span>E3D Setup Generator</span></div>
-        <span class="ctx" id="ctx"></span>
+        <div class="brand">${U.LOGO}<span>E3D Setup</span></div>
+        <button class="proj" type="button" data-act="projPanel" id="projChip" title="Project: kode, nama, MDB, default DB"></button>
+        <nav class="stepper" id="stepper" aria-label="Langkah"></nav>
         <span class="spacer"></span>
-        <div class="actions">
-          <button class="icon-btn" type="button" data-act="undo" aria-label="Batalkan (Ctrl+Z)" title="Batalkan (Ctrl+Z)">${U.icon('undo')}</button>
-          <button class="icon-btn" type="button" data-act="redo" aria-label="Ulangi (Ctrl+Y)" title="Ulangi (Ctrl+Y)">${U.icon('redo')}</button>
-          <button class="icon-btn" type="button" data-act="theme" id="themeBtn" aria-label="Tema">${U.icon('theme')}</button>
-          <button class="btn outlined" type="button" data-act="importJson">${U.icon('upload')}Import JSON</button>
-          <button class="btn outlined" type="button" data-act="exportJson">${U.icon('download')}Export JSON</button>
-          <button class="btn filled" type="button" data-act="generateZip" id="genBtn">${U.icon('download')}Generate ZIP</button>
-        </div>
+        <button class="status" type="button" data-act="problems" id="status"></button>
+        <button class="icon-btn" type="button" data-act="undo" id="undoBtn" aria-label="Batalkan (Ctrl+Z)" title="Batalkan (Ctrl+Z)">${U.icon('undo')}</button>
+        <button class="icon-btn" type="button" data-act="tour" aria-label="Tur singkat" title="Tur singkat">${U.icon('help')}</button>
+        <button class="icon-btn" type="button" data-act="menu" id="menuBtn" aria-label="Menu" title="Menu">${U.icon('more')}</button>
       </header>
-      <div class="layout">
-        <nav class="nav" aria-label="Langkah" id="nav"></nav>
-        <main id="main" tabindex="-1"></main>
-      </div>`;
+      <div class="shell"><main id="main" tabindex="-1"></main><aside id="side" aria-label="Hasil di E3D"></aside></div>
+      <footer class="foot" id="foot"></footer>`;
     const body = document.body;
     body.addEventListener('click', onClick);
     body.addEventListener('input', onInput);
     body.addEventListener('change', onChange);
     body.addEventListener('focusin', ev => { if (ev.target.matches('[data-bind]')) ev.target.dataset.old = ev.target.type === 'checkbox' ? ev.target.checked : ev.target.value; });
     document.addEventListener('keydown', ev => {
-      const typing = ev.target.matches('input, textarea, select');
-      if ((ev.ctrlKey || ev.metaKey) && !typing && ev.key.toLowerCase() === 'z') { ev.preventDefault(); ev.shiftKey ? A.redo() : A.undo(); }
-      if ((ev.ctrlKey || ev.metaKey) && !typing && ev.key.toLowerCase() === 'y') { ev.preventDefault(); A.redo(); }
+      const typing = ev.target.matches('input, textarea, select, [contenteditable="true"]');
+      const k = ev.key.toLowerCase();
+      if ((ev.ctrlKey || ev.metaKey) && !typing && k === 'z') { ev.preventDefault(); ev.shiftKey ? A.redo() : A.undo(); }
+      if ((ev.ctrlKey || ev.metaKey) && !typing && k === 'y') { ev.preventDefault(); A.redo(); }
+      if ((ev.ctrlKey || ev.metaKey) && k === 'o') { ev.preventDefault(); U.act.openConfig(); }
+      if ((ev.ctrlKey || ev.metaKey) && k === 's') { ev.preventDefault(); U.act.exportJson(); }
+      if (ev.key === 'Escape' && U.$('.sheet')) U.closeSheet();
     });
-    // Drop a config.json or Export Config .xlsx anywhere on the page.
-    body.addEventListener('dragover', ev => { if (ev.dataTransfer && [...ev.dataTransfer.types].includes('Files')) { ev.preventDefault(); body.classList.add('dropping'); } });
+    body.addEventListener('dragover', ev => {
+      if (ev.dataTransfer && [...ev.dataTransfer.types].includes('Files')) { ev.preventDefault(); body.classList.add('dropping'); }
+    });
     body.addEventListener('dragleave', ev => { if (!ev.relatedTarget) body.classList.remove('dropping'); });
     body.addEventListener('drop', ev => {
       body.classList.remove('dropping');
-      const f = ev.dataTransfer && ev.dataTransfer.files[0];
+      const f = ev.dataTransfer && ev.dataTransfer.files && ev.dataTransfer.files[0];
       if (!f) return;
       ev.preventDefault();
-      if (/\.json$/i.test(f.name)) U.importConfigFile(f);
-      else if (/\.xlsx$/i.test(f.name)) U.importExportConfigFile(f);
-      else U.toast('Jatuhkan file config.json atau Export Config .xlsx', 'error');
+      U.openFile(f, ev.target.closest('[data-drop-list]') ? ev.target.closest('[data-drop-list]').dataset.dropList : null);
     });
   };
 
-  U.renderChrome = function () {
-    const c = A.config, errs = A.errors().length;
-    U.$('#ctx').textContent = `${c.project.code || '-'} · ${(c.combination || {}).mdb || '-'}`;
-    const gen = U.$('#genBtn');
-    gen.disabled = errs > 0;
-    gen.title = errs ? `${errs} error harus diperbaiki dulu (lihat Preview & validasi)` : 'Buat dan unduh paket ZIP';
-    U.$('[data-act="undo"]').disabled = !A.hist.length;
-    U.$('[data-act="redo"]').disabled = !A.fut.length;
-    const per = n => A.r.issues.filter(i => i.severity === 'error' && i.location && i.location.screen === n).length;
-    U.$('#nav').innerHTML = STEPS.map((s, i) => {
-      const n = i + 1, cur = n === A.ui.screen, e = n >= 5 ? errs : per(n);
-      const cls = e ? 'bad' : 'done';
-      const mark = cur ? n : e ? '!' : '✓';
-      return `<button type="button" class="step ${cur ? '' : cls}" data-act="go" data-screen="${n}" ${cur ? 'aria-current="page"' : ''} title="${e ? e + ' error' : 'Tidak ada error'}"><span class="n">${mark}</span>${U.esc(s)}</button>`;
-    }).join('') + '<div class="foot" id="navFoot"></div>';
-    U.renderNavFoot();
+  U.stepDone = function (n) {
+    const c = A.config, rr = A.r;
+    if (n === 1) { const { rowAttr, colAttr } = E.roles(rr.cfg); return !!(rowAttr && colAttr && rowAttr.rows.length && colAttr.rows.length); }
+    if (n === 2) return rr.model.cells.length > 0;
+    if (n === 3) return rr.model.cells.length > 0 && !rr.issues.some(i => i.id === 'V03' || i.id === 'V04');
+    return false && c;
   };
-  U.renderNavFoot = function () {
-    const f = U.$('#navFoot');
-    if (!f) return;
-    const t = A.savedAt ? A.savedAt.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) : null;
-    f.innerHTML = `<span>${A.storageOk ? (t ? `Tersimpan otomatis · ${t}` : 'Simpan otomatis aktif') : 'Penyimpanan lokal diblokir: pakai Export JSON'}</span>
-      <span class="mono">v${E.VERSION} · skema ${E.SCHEMA_VERSION}</span>`;
+  U.renderChrome = function () {
+    const c = A.config, errs = A.errors().length, warns = A.warnings().length, start = A.ui.screen === 0;
+    document.body.classList.toggle('at-start', start);
+    document.body.classList.toggle('side-open', !!A.ui.side && !start);
+    const pe = U.projectErrors();
+    U.$('#projChip').innerHTML = `<b>${U.esc(c.project.code || 'Project')}</b><small>${U.esc(c.project.name || '')}${c.project.name ? ' · ' : ''}${U.esc((c.combination || {}).mdb || '')}</small>${pe ? `<span class="dot err" title="${pe} masalah"></span>` : ''}`;
+    U.$('#stepper').innerHTML = U.STEPS.map((s, i) => {
+      const n = i + 1, cur = n === A.ui.screen, e = U.stepErrors(n), done = U.stepDone(n);
+      const mark = e ? '!' : done && !cur ? '✓' : n;
+      return `<button type="button" class="step${done ? ' done' : ''}${e ? ' bad' : ''}" data-act="go" data-screen="${n}" ${cur ? 'aria-current="step"' : ''} title="${e ? e + ' masalah' : ''}"><span class="n">${mark}</span>${U.esc(s)}</button>`;
+    }).join('');
+    const st = U.$('#status');
+    st.className = 'status ' + (errs ? 'bad' : 'ok');
+    st.innerHTML = errs ? `<span class="dot"></span>${errs} masalah` : `<span class="dot"></span>Siap${warns ? ` · ${warns} catatan` : ''}`;
+    st.title = errs ? 'Klik untuk melihat dan memperbaiki' : 'Tidak ada error';
+    U.$('#undoBtn').disabled = !A.hist.length;
+    U.renderSide();
+    U.renderFoot();
+  };
+  U.renderFoot = function () {
+    const n = A.ui.screen, foot = U.$('#foot');
+    if (!n) { foot.innerHTML = ''; return; }
+    const back = n > 1 ? `<button class="btn text" type="button" data-act="go" data-screen="${n - 1}">${U.icon('back')}${U.STEPS[n - 2]}</button>` : '';
+    const next = n < 4 ? `<button class="btn filled next" type="button" data-act="go" data-screen="${n + 1}">Lanjut: ${U.STEPS[n]}${U.icon('next')}</button>`
+      : `<button class="btn filled next" type="button" data-act="generateZip" ${A.errors().length || !A.r.model.cells.length ? 'disabled' : ''}>${U.icon('download')}Unduh ZIP</button>`;
+    foot.innerHTML = `${back}<span class="spacer"></span><span class="hint">${HINT[n]}</span>${next}`;
   };
 
-  // Full render of the current screen, keeping scroll position and focus.
   U.renderScreen = function () {
     const main = U.$('#main'), scr = U.screens[A.ui.screen];
     const act = document.activeElement;
     const focusKey = act && main.contains(act) ? (act.dataset.bind || act.id) : null;
     const sel = act && 'selectionStart' in act ? [act.selectionStart, act.selectionEnd] : null;
     const y = window.scrollY;
-    const keepScroll = U.$$('[data-keep-scroll]', main).map(el => [el.dataset.keepScroll, el.scrollTop, el.scrollLeft]);
-    main.innerHTML = `<div class="page-head"><div><h1>${U.esc(scr.title)}</h1><p>${scr.sub}</p></div>${scr.headAction ? scr.headAction(A) : ''}</div>` + scr.render(A);
+    const keep = U.$$('[data-keep-scroll]', main).map(el => [el.dataset.keepScroll, el.scrollTop, el.scrollLeft]);
+    main.innerHTML = scr.render(A);
     if (scr.mount) scr.mount(main, A);
     U.markIssues(main);
     window.scrollTo(0, y);
-    for (const [k, t, l] of keepScroll) { const el = U.$(`[data-keep-scroll="${k}"]`, main); if (el) { el.scrollTop = t; el.scrollLeft = l; } }
+    for (const [k, t, l] of keep) { const el = U.$(`[data-keep-scroll="${k}"]`, main); if (el) { el.scrollTop = t; el.scrollLeft = l; } }
     if (focusKey) {
       const el = U.$(`[data-bind="${CSS.escape(focusKey)}"]`, main) || document.getElementById(focusKey);
-      if (el) { el.focus({ preventScroll: true }); if (sel && 'setSelectionRange' in el) try { el.setSelectionRange(sel[0], sel[1]); } catch (e) { /* not a text input */ } }
+      if (el) { el.focus({ preventScroll: true }); if (sel && 'setSelectionRange' in el) try { el.setSelectionRange(sel[0], sel[1]); } catch (e) { /* not text */ } }
     }
   };
-  // Refresh derived parts (counts, samples, checks) without touching inputs.
   U.refresh = function () {
     const main = U.$('#main'), scr = U.screens[A.ui.screen];
     for (const el of U.$$('[data-part]', main)) {
       const fn = scr.parts && scr.parts[el.dataset.part];
       if (fn) el.innerHTML = fn(A, el);
     }
-    U.markIssues(main);
+    if (U.sheetRefresh) U.sheetRefresh(false);
+    U.markIssues(document);
+    U.renderChrome();
+  };
+  U.renderAll = function () {
+    U.renderScreen();
+    if (U.sheetRefresh) U.sheetRefresh(true);
+    U.markIssues(document);
     U.renderChrome();
   };
 
   U.go = function (screen, loc) {
     A.flush();
-    A.ui.screen = screen;
+    U.closeMenu();
+    if (screen !== A.ui.screen) A.ui.screen = screen;
     const scr = U.screens[screen];
     if (loc && scr.select) scr.select(A, loc);
-    U.renderScreen(); U.renderChrome(); A.save();
-    if (!loc) { window.scrollTo(0, 0); U.$('#main').focus({ preventScroll: true }); return; }
-    const keys = U.locKeys(loc).reverse();
-    for (const k of keys) {
-      const el = U.$(`[data-loc="${CSS.escape(k)}"]`, U.$('#main'));
+    U.renderAll(); A.save();
+    if (!loc) { window.scrollTo(0, 0); U.$('#main').focus({ preventScroll: true }); U.maybeTour(); return; }
+    U.focusLoc(loc, U.$('#main'));
+  };
+  U.focusLoc = function (loc, root) {
+    for (const k of U.locKeys(loc).reverse()) {
+      const el = U.$(`[data-loc="${CSS.escape(k)}"]`, root);
       if (!el) continue;
       el.scrollIntoView({ block: 'center' });
       const row = el.closest('tr') || el;
       row.classList.remove('flash'); void row.offsetWidth; row.classList.add('flash');
       const inp = el.matches('input, select, textarea, button') ? el : U.$('input, select, textarea', el);
       if (inp) inp.focus({ preventScroll: true });
-      return;
+      return true;
     }
-    window.scrollTo(0, 0);
+    return false;
+  };
+  // Navigate to where an issue lives (stepper screen or project panel).
+  U.goIssue = function (issue) {
+    const loc = issue.location || {}, t = U.target(loc);
+    U.closeSheet();
+    if (t.panel === 'project') { U.openProject(); setTimeout(() => U.focusLoc(loc, U.$('.sheet')), 50); return; }
+    if (t.list) A.ui.list = t.list;
+    U.go(t.screen, loc);
   };
 
   /* ---------- Events ---------- */
@@ -238,10 +290,11 @@
     if (t === 'list') return v.split(/[,;\s]+/).filter(Boolean);
     return v;
   }
+  U.readValue = readValue;
   function onInput(ev) {
     const el = ev.target;
     if (el.dataset.input && U.act[el.dataset.input]) return U.act[el.dataset.input](el, ev);
-    if (!el.matches('[data-bind]') || el.type === 'checkbox' || el.tagName === 'SELECT') return;
+    if (!el.matches('[data-bind]') || el.type === 'checkbox' || el.type === 'radio' || el.tagName === 'SELECT') return;
     U.setPath(A.config, el.dataset.bind, readValue(el));
     A.touch();
   }
@@ -269,37 +322,60 @@
   U.act.exportJson = () => {
     A.flush();
     U.download(E.exportJson(A.config), 'config.json', 'application/json');
-    U.toast('config.json diunduh');
+    U.toast('config.json disimpan');
   };
-  U.act.importJson = async () => { const f = await U.pickFile('.json,application/json'); if (f) U.importConfigFile(f); };
+  U.act.openConfig = async () => { const f = await U.pickFile('.json,application/json'); if (f) U.importConfigFile(f); };
   U.act.generateZip = () => {
     A.flush();
-    if (A.errors().length) { U.toast(`${A.errors().length} error harus diperbaiki dulu`, 'error'); return U.go(5); }
+    if (A.errors().length) { U.toast(`${A.errors().length} masalah harus diperbaiki dulu`, 'error'); return U.openProblems(); }
     U.downloadZip();
+  };
+  U.act.sideToggle = () => { A.ui.side = !A.ui.side; A.save(); U.renderChrome(); };
+  U.act.menu = el => U.menu(el, [
+    { label: 'Project baru', icon: 'newfile', run: () => U.act.newProject() },
+    { label: 'Buka config.json…', icon: 'upload', run: () => U.act.openConfig() },
+    { label: 'Simpan config.json', icon: 'download', run: () => U.act.exportJson() },
+    { divider: true },
+    { label: 'Ulangi (Ctrl+Y)', icon: 'redo', run: () => A.redo() },
+    { label: `Tema: ${{ system: 'ikuti sistem', light: 'terang', dark: 'gelap' }[U.store.get(KEY + '/theme') || 'system']}`, icon: 'theme', run: () => U.act.theme() },
+    { label: 'Istilah', icon: 'info', run: () => U.glossary() },
+  ]);
+
+  // One entry point for dropped or picked files.
+  U.openFile = async function (file, listId) {
+    if (/\.json$/i.test(file.name)) return U.importConfigFile(file);
+    if (/\.(csv|txt|tsv)$/i.test(file.name)) return U.importTable({ name: file.name, text: await U.readText(file) }, listId);
+    if (/\.xlsx$/i.test(file.name)) {
+      let book;
+      try { book = await E.xlsx.read(await U.readBytes(file)); } catch (e) { return U.toast(`${file.name}: ${e.message}`, 'error'); }
+      const isExportConfig = book.some(s => /^(databases|teams)$/i.test(s.name.trim()));
+      if (isExportConfig && !listId) return U.importExportConfigBook(book, file.name);
+      return U.importTable({ name: file.name, book }, listId);
+    }
+    U.toast('Gunakan config.json, Excel (.xlsx) atau CSV', 'error');
   };
 
   U.importConfigFile = async function (file) {
     let data;
-    try { data = JSON.parse(await U.readText(file)); } catch (e) { return U.toast(`${file.name}: bukan JSON yang valid (${e.message})`, 'error'); }
+    try { data = JSON.parse(await U.readText(file)); } catch (e) { return U.toast(`${file.name}: bukan JSON yang valid`, 'error'); }
     const errs = E.checkSchema(data);
-    if (errs.length) {
-      return U.dialog({ title: 'Config tidak bisa dibuka', body: `<p>${U.esc(file.name)}</p><ul>${errs.map(e => `<li>${U.esc(e)}</li>`).join('')}</ul>` });
-    }
+    if (errs.length) return U.dialog({ title: 'Config tidak bisa dibuka', body: `<ul>${errs.map(e => `<li>${U.esc(e)}</li>`).join('')}</ul>` });
     const { config, notes } = E.migrate(data);
     const r = E.compute(config), c = r.counts;
     const nErr = r.issues.filter(i => i.severity === 'error').length;
     const ok = await U.dialog({
-      title: 'Import config.json',
-      body: `<p><b>${U.esc(file.name)}</b> · project <span class="mono">${U.esc(config.project.code)}</span> ${U.esc(config.project.name)}</p>
-        <div class="tiles">${[['Attribute', config.attributes.length], ['Aturan zone', config.zoneRules.length], ['DB', c.dbs], ['Site', c.sites + c.separators], ['Zone', c.zones], ['DB referensi', c.refsActive]]
-          .map(([l, v]) => `<div class="tile"><span class="l">${l}</span><span class="v">${U.num(v)}</span></div>`).join('')}</div>
-        ${notes.length ? `<p>Migrasi skema:</p><ul>${notes.map(n => `<li>${U.esc(n)}</li>`).join('')}</ul>` : ''}
-        <p>${nErr ? `${nErr} error validasi perlu diperbaiki setelah import.` : 'Tanpa error validasi.'} Konfigurasi saat ini akan diganti (bisa dibatalkan dengan Ctrl+Z).</p>`,
-      actions: [{ label: 'Batal', value: false }, { label: 'Lanjut', value: true, kind: 'filled' }],
+      title: `Buka ${file.name}`,
+      body: `<p><b class="mono">${U.esc(config.project.code)}</b> ${U.esc(config.project.name)}</p>
+        <div class="tiles">${[['DB', c.dbs], ['Site', c.sites + c.separators], ['Zone', c.zones]].map(([l, v]) => `<div class="tile"><span class="l">${l}</span><span class="v">${U.num(v)}</span></div>`).join('')}</div>
+        ${notes.length ? `<ul>${notes.map(n => `<li>${U.esc(n)}</li>`).join('')}</ul>` : ''}
+        ${nErr ? `<p>${nErr} masalah perlu diperbaiki.</p>` : ''}${A.hadSaved || A.hist.length ? '<p class="hint">Pekerjaan sekarang diganti. Ctrl+Z untuk kembali.</p>' : ''}`,
+      actions: [{ label: 'Batal', value: false }, { label: 'Buka', value: true, kind: 'filled' }],
     });
     if (!ok) return;
-    A.replace(config);
-    U.toast(`${file.name} dimuat`);
+    A.hadSaved = true;
+    A.replace(config, 4);
+    U.toast(`${file.name} dibuka`);
+    U.maybeTour();
   };
 
   U.buildPackage = async function () {
@@ -317,65 +393,55 @@
       const zip = await E.zip.write(entries);
       const name = A.config.project.packageName || 'E3D-SETUP-PACKAGE.zip';
       U.download(new Blob([zip], { type: 'application/zip' }), name);
-      U.toast(`${name} diunduh · ${entries.length} file${E.canDeflate() ? '' : ' (tanpa kompresi)'}`);
+      U.toast(`${name} diunduh · ${entries.length} file`);
     } catch (e) {
       U.toast('Gagal membuat ZIP: ' + e.message, 'error');
     }
   };
 
   /* ---------- Theme (MD3 dynamic color) ---------- */
-  const SEED = '#00658A';                        // primary from the approved mockups
-  const EXT = { ok: '#2E7D32', warn: '#B58100' }; // extended roles: success, warning
+  const SEED = '#00658A';
+  const EXT = { ok: '#2E7D32', warn: '#B58100' };
   let ext = null;
   U.paintTheme = function () {
     if (typeof MD3 === 'undefined') return;
-    const mode = MD3.getTheme();
-    const root = document.documentElement.style;
+    const mode = MD3.getTheme(), root = document.documentElement.style;
     for (const [k, s] of Object.entries(ext || {})) {
       root.setProperty(`--app-${k}-container`, s[mode]['primary-container']);
       root.setProperty(`--app-on-${k}-container`, s[mode]['on-primary-container']);
+      root.setProperty(`--app-${k}`, s[mode].primary);
     }
   };
   U.initTheme = function () {
     if (typeof MD3 === 'undefined') return;
     MD3.applySeed(SEED, { style: 'tonalSpot' });
     ext = Object.fromEntries(Object.entries(EXT).map(([k, v]) => [k, MD3.schemeFromSeed(v, 'tonalSpot')]));
-    const mode = U.store.get(KEY + '/theme') || 'system';
-    MD3.setTheme(mode);
+    MD3.setTheme(U.store.get(KEY + '/theme') || 'system');
     U.paintTheme();
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', U.paintTheme);
-    U.updateThemeBtn(mode);
-  };
-  U.updateThemeBtn = mode => {
-    const b = U.$('#themeBtn');
-    if (b) b.title = `Tema: ${{ system: 'ikuti sistem', light: 'terang', dark: 'gelap' }[mode]} (klik untuk ganti)`;
-    if (b) b.setAttribute('aria-label', b.title);
   };
   U.act.theme = () => {
     const order = ['system', 'light', 'dark'];
-    const cur = U.store.get(KEY + '/theme') || 'system', next = order[(order.indexOf(cur) + 1) % 3];
+    const next = order[(order.indexOf(U.store.get(KEY + '/theme') || 'system') + 1) % 3];
     U.store.set(KEY + '/theme', next);
     MD3.setTheme(next);
     U.paintTheme();
-    U.updateThemeBtn(next);
     U.toast(`Tema: ${{ system: 'ikuti sistem', light: 'terang', dark: 'gelap' }[next]}`);
   };
 
-  /* ---------- Shared bits for screens ---------- */
-  U.chipsFor = function (key, okText) {
-    const iss = A.idx.get(key) || [];
-    const errs = iss.filter(i => i.severity === 'error'), warns = iss.filter(i => i.severity === 'warning');
-    const out = [];
-    const seen = new Set();
-    for (const i of [...errs, ...warns]) {
-      const k = i.id + i.message;
-      if (seen.has(k) || seen.size >= 6) continue;
-      seen.add(k);
-      out.push(`<span class="chip ${i.severity === 'error' ? 'err' : 'warn'}" title="${U.esc(i.message)}">${U.icon(i.severity === 'error' ? 'error' : 'warning')}${U.esc(i.message)}<span class="chip ref">${i.id}${i.ref && i.ref !== '-' ? ' · ' + i.ref : ''}</span></span>`);
+  /* ---------- Shared bits ---------- */
+  // Problems only: silence means OK (design principle P3).
+  U.problems = function (keys) {
+    const seen = new Set(), out = [];
+    for (const k of [].concat(keys)) for (const i of U.issuesAt(k)) {
+      if (i.severity === 'info' || seen.has(i.id + i.message)) continue;
+      seen.add(i.id + i.message);
+      out.push(i);
     }
-    if (errs.length + warns.length > seen.size) out.push(`<span class="chip">+${errs.length + warns.length - seen.size} lainnya</span>`);
-    if (!out.length && okText) out.push(...[].concat(okText).map(t => `<span class="chip ok">${U.icon('check')}${t}</span>`));
-    return out.join('');
+    if (!out.length) return '';
+    const shown = out.slice(0, 4).map(i => `<span class="chip ${i.severity === 'error' ? 'err' : 'warn'}">${U.icon(i.severity === 'error' ? 'error' : 'warning')}${U.esc(i.message)}${i.ref && i.ref !== '-' ? `<span class="ref">${U.esc(i.ref)}</span>` : ''}</span>`);
+    if (out.length > 4) shown.push(`<button type="button" class="chip" data-act="problems">+${out.length - 4} lainnya</button>`);
+    return shown.join('');
   };
   U.attrOptions = (selected, filter) => (A.config.attributes || []).filter(a => !filter || filter(a))
     .map(a => `<option value="${U.esc(a.id)}" ${a.id === selected ? 'selected' : ''}>${U.esc(a.name)}</option>`).join('');

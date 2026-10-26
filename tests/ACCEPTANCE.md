@@ -3,6 +3,8 @@
 Automate A1–A4 and N1–N16 in the headless engine test suite (Node, or `tests/run-tests.html` that runs
 in the browser and prints PASS/FAIL). U1–U12 are manual UI checks; `tests/ui-smoke.js` automates
 U1, U3–U5, U7, U10 (ZIP content), U12 and N16 through the UI when Playwright is available.
+Since UI v2 the screen numbers map to: 1 → Project sheet + Daftar (DB referensi) + Cek & Unduh (project match),
+2 → Daftar, 3 → Susunan, 4 → Nama, 5 and 6 → Cek & Unduh + Masalah sheet.
 
 ## A. Preset ZRF
 

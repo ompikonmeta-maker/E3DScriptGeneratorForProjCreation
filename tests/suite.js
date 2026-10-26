@@ -191,6 +191,19 @@ var makeSuite = function (E, preset, fixtures) {
       ok(threw, `rejects '${bad}'`);
     }
   });
+  test('X5', 'Import mapping: header guess, mapping, conversion', () => {
+    const area = clone(preset).attributes.find(a => a.id === 'area');
+    const table = [['SLOT', 'Kode', 'Deskripsi', 'grup'], ['31', 'ZZ', 'New', 'OTHERS'], ['', '', '', '']];
+    ok(E.looksLikeHeader(area, table[0]), 'header detected');
+    const map = E.guessMapping(area, table[0], true);
+    eq([map.kode, map.desc, map.slot, map.grup, map.fungsi], [1, 2, 0, 3, -1], 'mapping');
+    eq(E.mapTable(area, table.slice(1), map), [{ kode: 'ZZ', desc: 'New', slot: 31, grup: 'OTHERS', fungsi: '' }], 'rows');
+    eq(E.guessMapping(area, ['a', 'b'], false).desc, 1, 'positional mapping');
+    const other = [['AREA', 'DESCRIPTION', 'SLOT'], ['Q6', 'PR-M6', '18'], ['Q7', 'PR-M7', '19']];
+    ok(E.looksLikeHeader(area, other[0], other.slice(1)), 'header with unfamiliar names detected');
+    eq(E.guessMapping(area, other[0], true).slot, 2, 'unfamiliar header falls back to column order');
+    ok(!E.looksLikeHeader(area, other[1], other.slice(2)), 'data row is not a header');
+  });
   if (E.zip) {
     test('X4', 'ZIP and XLSX write -> read round trip', async () => {
       const r = run(clone(preset));

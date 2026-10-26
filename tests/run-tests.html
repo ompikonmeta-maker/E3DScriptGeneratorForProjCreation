@@ -3087,6 +3087,42 @@ var E3D = typeof E3D !== 'undefined' ? E3D : {};
     });
   };
 
+  // Rows from a table with an explicit mapping {columnId: sourceIndex} (import dialog).
+  E.mapTable = function (attr, body, mapping) {
+    return body.filter(r => r.some(c => String(c === undefined || c === null ? '' : c).trim() !== '')).map(r => {
+      const row = {};
+      for (const c of attr.columns || []) {
+        const j = mapping[c.id];
+        row[c.id] = E.convertValue(c, j === undefined || j === null || j < 0 ? '' : r[j]);
+      }
+      return row;
+    });
+  };
+  // Best guess mapping by header text (name or id, case-insensitive); otherwise by position.
+  E.guessMapping = function (attr, header, hasHeader) {
+    const norm = s => String(s === undefined || s === null ? '' : s).trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+    const map = {}, used = new Set();
+    (attr.columns || []).forEach((c, i) => {
+      let j = -1;
+      if (hasHeader) j = header.findIndex((h, k) => !used.has(k) && h !== '' && (norm(h) === norm(c.name) || norm(h) === norm(c.id)));
+      else if (i < header.length) j = i;
+      if (j >= 0) used.add(j);
+      map[c.id] = j;
+    });
+    // Header with unfamiliar names (e.g. AREA, DESCRIPTION): fall back to column order.
+    if (hasHeader && !used.size) (attr.columns || []).forEach((c, i) => { map[c.id] = i < header.length ? i : -1; });
+    return map;
+  };
+  // A first row is a header when at least two cells name columns of the list.
+  // ...or when a column is numeric in the data but not in the first row.
+  E.looksLikeHeader = function (attr, first, body) {
+    const norm = s => String(s === undefined || s === null ? '' : s).trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+    const names = new Set((attr.columns || []).flatMap(c => [norm(c.name), norm(c.id)]));
+    if ((first || []).filter(h => names.has(norm(h))).length >= Math.min(2, (attr.columns || []).length)) return true;
+    const isNum = v => /^\s*-?\d+(\.\d+)?\s*$/.test(String(v === undefined || v === null ? '' : v));
+    return (first || []).some((h, j) => String(h).trim() !== '' && !isNum(h) && (body || []).length > 0 && (body || []).every(r => isNum(r[j])));
+  };
+
   /* ---------- Export Config workbook -> inUse ---------- */
   const findSheet = (book, name) => book.find(s => s.name.trim().toLowerCase() === name.toLowerCase());
   const txt = v => (v === undefined || v === null ? '' : String(v).trim());
@@ -3598,6 +3634,19 @@ var makeSuite = function (E, preset, fixtures) {
       try { E.evaluate(bad); } catch (e) { threw = true; }
       ok(threw, `rejects '${bad}'`);
     }
+  });
+  test('X5', 'Import mapping: header guess, mapping, conversion', () => {
+    const area = clone(preset).attributes.find(a => a.id === 'area');
+    const table = [['SLOT', 'Kode', 'Deskripsi', 'grup'], ['31', 'ZZ', 'New', 'OTHERS'], ['', '', '', '']];
+    ok(E.looksLikeHeader(area, table[0]), 'header detected');
+    const map = E.guessMapping(area, table[0], true);
+    eq([map.kode, map.desc, map.slot, map.grup, map.fungsi], [1, 2, 0, 3, -1], 'mapping');
+    eq(E.mapTable(area, table.slice(1), map), [{ kode: 'ZZ', desc: 'New', slot: 31, grup: 'OTHERS', fungsi: '' }], 'rows');
+    eq(E.guessMapping(area, ['a', 'b'], false).desc, 1, 'positional mapping');
+    const other = [['AREA', 'DESCRIPTION', 'SLOT'], ['Q6', 'PR-M6', '18'], ['Q7', 'PR-M7', '19']];
+    ok(E.looksLikeHeader(area, other[0], other.slice(1)), 'header with unfamiliar names detected');
+    eq(E.guessMapping(area, other[0], true).slot, 2, 'unfamiliar header falls back to column order');
+    ok(!E.looksLikeHeader(area, other[1], other.slice(2)), 'data row is not a header');
   });
   if (E.zip) {
     test('X4', 'ZIP and XLSX write -> read round trip', async () => {

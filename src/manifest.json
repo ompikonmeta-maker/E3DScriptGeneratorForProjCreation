@@ -15,12 +15,13 @@
   "ui": [
     "src/ui/util.js",
     "src/ui/app.js",
-    "src/ui/screens/project.js",
-    "src/ui/screens/attribute.js",
-    "src/ui/screens/relasi.js",
-    "src/ui/screens/template.js",
-    "src/ui/screens/preview.js",
-    "src/ui/screens/generate.js",
+    "src/ui/panels.js",
+    "src/ui/importer.js",
+    "src/ui/blocks.js",
+    "src/ui/screens/lists.js",
+    "src/ui/screens/structure.js",
+    "src/ui/screens/names.js",
+    "src/ui/screens/finish.js",
     "src/ui/main.js"
   ],
   "css": [

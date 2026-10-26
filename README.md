@@ -7,14 +7,13 @@ macro setup AVEVA E3D (Team → DB → MDB → Site → Zone) dari konvensi pena
 
 1. Buka `dist/e3d-setup-generator.html` (klik dua kali) di Microsoft Edge atau Google Chrome. Tanpa
    instalasi, tanpa hak admin, tanpa internet. File boleh disalin ke folder lokal, USB, atau share.
-2. Layar 1: **Kosong** untuk konvensi baru, atau **Import config.json** (mis. `presets/zrf.config.json`).
-   Opsional: **Import Export Config (.xlsx)** dari project tujuan untuk cek bentrok nama dan DBNO.
-3. Layar 2–4: atur attribute, kombinasi dan template. Validasi berjalan langsung; layar 5 menampilkan
-   semua temuan (klik untuk lompat ke sel terkait).
-4. Layar 6: periksa isi file, lalu **Unduh ZIP** (macro .mac, README, register .xlsx, config.json).
+2. **Project baru** atau **Buka config.json** (mis. `presets/zrf.config.json`; boleh diseret ke jendela).
+3. Ikuti 4 langkah di bar atas: **Daftar → Susunan → Nama → Cek & Unduh**. Panel kanan menunjukkan hasil
+   seperti di Model Explorer. Lencana di kanan atas: hijau = siap, merah = klik untuk melihat dan memperbaiki.
+4. Di **Cek & Unduh**: opsional seret Export Config (.xlsx) project tujuan untuk cek bentrok, lalu **Unduh ZIP**.
 
-Pekerjaan tersimpan otomatis di browser; `Export JSON` adalah simpanan permanen. Ctrl+Z / Ctrl+Y untuk
-batal/ulang.
+Pekerjaan tersimpan otomatis di browser; menu ⋯ → Simpan config.json untuk simpanan permanen.
+Ctrl+Z / Ctrl+Y batal/ulang, Ctrl+O buka, Ctrl+S simpan. Tombol ? memutar ulang tur singkat.
 
 Untuk pengembang (butuh Python 3 dan Node):
 

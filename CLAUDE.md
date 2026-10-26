@@ -25,10 +25,15 @@ Owner: omPik (Smart3D/S3D administrator learning E3D administration). UI languag
 
 ## Current state
 
-Built: engine (`src/engine/`), IO (`src/io/`), six screens (`src/ui/`), build script, tests.
+Built: engine (`src/engine/`), IO (`src/io/`), UI (`src/ui/`), build script, tests.
+UI v2 (omPik, 2026-10-26, redesign plan "Redesign E3D Setup Generator"): the six mockup screens became
+**Mulai + 4 steps** — 1 Daftar (lists), 2 Susunan (structure), 3 Nama (names), 4 Cek & Unduh — plus a Project
+sheet (chip in the bar), a Masalah sheet (status pill), the always-visible "Hasil di E3D" side panel, a
+first-visit tour and a glossary. Silence means OK: only problems are shown. Team/User are fixed lists;
+reference DBs are a tab in Daftar; file/folder name templates live in ⚙ Opsi paket.
 Deliverable `dist/e3d-setup-generator.html` and `tests/run-tests.html` are **generated and committed** —
 rebuild after every source change. Decisions by omPik (2026-10-23):
-- The tool ships **generic**: no ZRF preset card; start = Kosong / Import config.json / Import Export Config.
+- The tool ships **generic**: no ZRF preset card; start = Project baru / Buka config.json.
   `presets/zrf.config.json` stays in the repo for tests and is opened via Import config.json.
 - UI uses the MD3 toolkit in `material-design-3-project/` (tokens CSS + dynamic color JS, seed `#00658A`),
   but **not** `md3-components.js`: its icons need the Material Symbols web font, which is blocked offline.
@@ -66,10 +71,17 @@ Key mechanics that span several files:
 - **B2 DB clause**: ` DB <db>` only when the DB differs from the previous `NEW SITE` line (`siteOrder`).
 - **Output text**: comment and command lines both match the Python reference byte-for-byte (A4b).
 - **E3D facts as flags**: `E3D.FACTS.newZoneTested` / `interDbOrderProven` — flip when omPik confirms (OI-04/05).
-- **UI state** (`src/ui/app.js`): `A.mutate(fn)` = snapshot (undo) + recompute + full screen render;
-  typing in `[data-bind]` inputs = `A.touch()` (debounced recompute, then only `[data-part]` regions and
-  `[data-loc]` error marks refresh, so focus is kept). `U.locKeys(issue.location)` ↔ `data-loc` attributes
-  drive red outlines and click-to-navigate from screen 5. Autosave key `e3d-setup-generator/v1`.
+- **UI state** (`src/ui/app.js`): `A.mutate(fn)` = snapshot (undo) + recompute + full render (`U.renderAll`);
+  typing in `[data-bind]` inputs = `A.touch()` (debounced recompute, then only `[data-part]` / sheet
+  `[data-spart]` regions, side panel and `[data-loc]` error marks refresh, so focus is kept).
+  Engine issue locations still use the original screen numbers 1–6; `U.target(loc)` maps them to the new
+  steps or the Project sheet (`U.goIssue`). Autosave key `e3d-setup-generator/v1` (+ `/theme`, `/tour`).
+- **Blocks** (`src/ui/blocks.js`): a template string is edited as draggable blocks (list value / text /
+  number / operator); expressions are re-serialized as tokens joined by single spaces. Palette shows the
+  likely blocks first (`kode`, numbers for expressions), the rest behind "+ n blok lain".
+- **Import** (`src/ui/importer.js`): every dropped/picked/pasted table goes through one dialog with
+  drag-and-drop column mapping (`E.guessMapping`, `E.mapTable`). A dropped `.xlsx` with a Databases/Teams
+  sheet is treated as Export Config (project match) unless dropped on a list.
 
 Domain data uses Indonesian keys — `kode`, `desc`, `urutan`, `anggota`, `existing`, `mdbMulai`, `slot`,
 `fungsi`, `grup` — keep them; they are part of the config schema.
